@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 
 class CollapsingAppbarPage extends StatelessWidget {
   const CollapsingAppbarPage({Key? key}) : super(key: key);
@@ -35,6 +36,34 @@ class CollapsingAppbarPage extends StatelessWidget {
             return ListTile(
                 title: Text("Item $index", textAlign: TextAlign.center));
           },
+        ),
+      ),
+      bottomNavigationBar: Container(
+        color: Theme.of(context).colorScheme.secondaryContainer,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+          child: GNav(
+            backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+            tabBackgroundColor: Theme.of(context).colorScheme.primary,
+            activeColor: Theme.of(context).colorScheme.onPrimary,
+            gap: 12,
+            padding: const EdgeInsets.all(20),
+            tabs: const [
+              GButton(
+                icon: Icons.home,
+                text: 'Home',
+              ),
+              GButton(
+                icon: Icons.favorite,
+                text: 'Favoris',
+              ),
+              GButton(
+                icon: Icons.add,
+                text: 'Ajouter',
+              ),
+              GButton(icon: Icons.account_circle, text: 'Profil')
+            ],
+          ),
         ),
       ),
     );
