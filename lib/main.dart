@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'pages/pageMap.dart';
-import 'pages/pageRechercheitineraire.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,6 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      themeMode: ThemeMode.dark,
       debugShowCheckedModeBanner: false,
       theme: FlexThemeData.light(
         scheme: FlexScheme.greenM3,
@@ -97,7 +97,7 @@ class MyApp extends StatelessWidget {
         // To use the Playground font, add GoogleFonts package and uncomment
         // fontFamily: GoogleFonts.notoSans().fontFamily,
       ),
-      home: CollapsingAppbarPage(),
+      home: const CollapsingAppbarPage(),
     );
   }
 }

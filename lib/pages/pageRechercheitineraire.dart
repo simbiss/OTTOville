@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class SearchPage extends StatefulWidget {
+  const SearchPage({super.key});
+
   @override
   _SearchPageState createState() => _SearchPageState();
 }
@@ -29,7 +31,7 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Recherche Itinéraire'),
+        title: const Text('Recherche Itinéraire'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -37,34 +39,34 @@ class _SearchPageState extends State<SearchPage> {
           children: <Widget>[
             TextFormField(
               controller: _startController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Votre position',
                 border: OutlineInputBorder(),
                 suffixIcon: Icon(Icons.my_location),
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             TextFormField(
               controller: _destinationController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Destination',
                 border: OutlineInputBorder(),
                 suffixIcon: Icon(Icons.location_pin),
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _search,
-              child: Text('Recherche'),
+              child: const Text('Recherche'),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Expanded(
               child: ListView.builder(
                 itemCount: _searchResults.length,
                 itemBuilder: (context, index) {
                   return ListTile(
                     title: Text(_searchResults[index]),
-                    leading: Icon(Icons.place),
+                    leading: const Icon(Icons.place),
                     onTap: () {
                       // Implémentez ce qui se passe quand on appuie sur un résultat
                     },

@@ -9,9 +9,9 @@ class CollapsingAppbarPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     late GoogleMapController mapController;
-    final LatLng _center = const LatLng(45.50952298488726, -73.61438069424453);
+    const LatLng center = LatLng(45.50952298488726, -73.61438069424453);
 
-    void _onMapCreated(GoogleMapController controller) {
+    void onMapCreated(GoogleMapController controller) {
       mapController = controller;
     }
 
@@ -33,9 +33,9 @@ class CollapsingAppbarPage extends StatelessWidget {
                         fontSize: 16.0,
                       )),
                   background: GoogleMap(
-                    onMapCreated: _onMapCreated,
-                    initialCameraPosition: CameraPosition(
-                      target: _center,
+                    onMapCreated: onMapCreated,
+                    initialCameraPosition: const CameraPosition(
+                      target: center,
                       zoom: 11.0,
                     ),
                   ),
@@ -70,22 +70,22 @@ class CollapsingAppbarPage extends StatelessWidget {
                         const SizedBox(height: 8),
                         Text(
                           "${item.PositionDepart} · ${item.PositionArrivee}",
-                          style: Theme.of(context).textTheme.caption,
+                          style: Theme.of(context).textTheme.bodySmall,
                         ),
                         const SizedBox(height: 8),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             IconButton(
-                              icon: Icon(Icons.bookmark_border_rounded),
+                              icon: const Icon(Icons.bookmark_border_rounded),
                               onPressed: () {},
                             ),
                             IconButton(
-                              icon: Icon(Icons.share),
+                              icon: const Icon(Icons.share),
                               onPressed: () {},
                             ),
                             IconButton(
-                              icon: Icon(Icons.more_vert),
+                              icon: const Icon(Icons.more_vert),
                               onPressed: () {},
                             ),
                           ],
