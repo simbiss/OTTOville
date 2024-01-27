@@ -62,14 +62,14 @@ class CollapsingAppbarPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          item.Id,
+                          item.PositionArrivee,
                           style: const TextStyle(fontWeight: FontWeight.bold),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          "${item.PositionDepart} · ${item.PositionArrivee}",
+                          "Vous êtes à : · ${item.PositionArrivee}",
                           style: Theme.of(context).textTheme.caption,
                         ),
                         const SizedBox(height: 8),
@@ -81,13 +81,13 @@ class CollapsingAppbarPage extends StatelessWidget {
                               onPressed: () {},
                             ),
                             IconButton(
-                              icon: Icon(Icons.share),
+                              icon: Icon(Icons.directions),
                               onPressed: () {},
                             ),
-                            IconButton(
+                            /*IconButton(
                               icon: Icon(Icons.more_vert),
                               onPressed: () {},
-                            ),
+                            ),*/
                           ],
                         ),
                       ],
