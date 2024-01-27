@@ -3,6 +3,10 @@
         android:label="app_ets_projet_durable"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyDIEkofkq5TZNoUKqXDA8rv8CfNC4aqS9w"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
