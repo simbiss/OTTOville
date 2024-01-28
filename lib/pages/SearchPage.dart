@@ -1,8 +1,14 @@
+import 'dart:convert';
+import 'package:app_ets_projet_durable/pages/pageMap.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:http/http.dart' as http;
+import 'package:geocoding/geocoding.dart';
+import 'RouteDetailsPage.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({super.key});
+  const SearchPage({Key? key}) : super(key: key);
 
   @override
   _SearchPageState createState() => _SearchPageState();
@@ -11,27 +17,273 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   final TextEditingController _startController = TextEditingController();
   final TextEditingController _destinationController = TextEditingController();
-  List<String> _searchResults = [];
+  List<Map<String, dynamic>> _searchResults = [];
+  String currentPosition = "";
+  String destination = "";
+  Map<String, dynamic>? _fastestRoute;
+  Map<String, dynamic>? _ecologicalRoute;
 
-  void _search() {
-    // Ici, vous implémenteriez la logique de recherche et mettez à jour
-    // la liste _searchResults avec les résultats obtenus.
-    // Pour cet exemple, nous allons juste ajouter des résultats factices.
-    setState(() {
-      _searchResults = [
-        'Résultat 1',
-        'Résultat 2',
-        'Résultat 3',
-        // Ajoutez vos résultats de recherche ici
-      ];
-    });
+  void _search() async {
+    print("Origin: $currentPosition, Destination: $destination");
+    List<Location> originLocations = await locationFromAddress(currentPosition);
+    List<Location> destinationLocations =
+        await locationFromAddress(destination);
+    print(originLocations[0].toString());
+    print(destinationLocations[0].toString());
+    RegExp regExp = RegExp(r'Latitude: ([\d.-]+),\s*Longitude: ([\d.-]+),');
+    var matchesOrigin = regExp.firstMatch(originLocations[0].toString());
+    var matchesDestinations =
+        regExp.firstMatch(destinationLocations[0].toString());
+    if (matchesOrigin != null && matchesDestinations != null) {
+      String latitudeOrigin = matchesOrigin.group(1) ?? "";
+      String longitudeOrigin = matchesOrigin.group(2) ?? "";
+      print('Latitude: $latitudeOrigin');
+      print('Longitude: $longitudeOrigin');
+      String latitudeDestination = matchesDestinations.group(1) ?? "";
+      String longitudeDestination = matchesDestinations.group(2) ?? "";
+      print('Latitude: $latitudeDestination');
+      print('Longitude: $longitudeDestination');
+
+      var url = Uri.parse(
+          'https://routes.googleapis.com/directions/v2:computeRoutes?key=AIzaSyDIEkofkq5TZNoUKqXDA8rv8CfNC4aqS9w');
+      var body = jsonEncode({
+        "origin": {
+          "location": {
+            "latLng": {"latitude": latitudeOrigin, "longitude": longitudeOrigin}
+          }
+        },
+        "destination": {
+          "location": {
+            "latLng": {
+              "latitude": latitudeDestination,
+              "longitude": longitudeDestination
+            }
+          }
+        },
+        "travelMode": "DRIVE",
+        "routingPreference": "TRAFFIC_AWARE_OPTIMAL",
+        "departureTime": "2024-01-28T15:01:23.045123456Z",
+        "computeAlternativeRoutes": false,
+        "routeModifiers": {
+          "avoidTolls": false,
+          "avoidHighways": false,
+          "avoidFerries": false,
+          "vehicleInfo": {"emissionType": "GASOLINE"}
+        },
+        "languageCode": "en-US",
+        "units": "IMPERIAL",
+        "extraComputations": ["FUEL_CONSUMPTION"],
+        "requestedReferenceRoutes": ["FUEL_EFFICIENT"]
+      });
+
+      var bodyEcologique = jsonEncode({
+        "origin": {
+          "location": {
+            "latLng": {"latitude": latitudeOrigin, "longitude": longitudeOrigin}
+          }
+        },
+        "destination": {
+          "location": {
+            "latLng": {
+              "latitude": latitudeDestination,
+              "longitude": longitudeDestination
+            }
+          }
+        },
+        "travelMode": "DRIVE",
+        "routingPreference": "TRAFFIC_AWARE_OPTIMAL",
+        "departureTime": "2024-01-28T15:01:23.045123456Z",
+        "computeAlternativeRoutes": false,
+        "routeModifiers": {
+          "avoidTolls": false,
+          "avoidHighways": false,
+          "avoidFerries": false,
+          "vehicleInfo": {"emissionType": "GASOLINE"}
+        },
+        "languageCode": "en-US",
+        "units": "IMPERIAL",
+        "extraComputations": ["FUEL_CONSUMPTION"],
+      });
+
+      var response = await http.post(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+          "X-Goog-FieldMask":
+              "routes.distanceMeters,routes.duration,routes.staticDuration,routes.description,routes.warnings,routes.viewport,routes.travelAdvisory,routes.localizedValues,routes.routeToken,routes.routeLabels,routes.polyline"
+        },
+        body: body,
+      );
+
+      var responseEcologique = await http.post(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+          "X-Goog-FieldMask":
+              "routes.distanceMeters,routes.duration,routes.staticDuration,routes.description,routes.warnings,routes.viewport,routes.travelAdvisory,routes.localizedValues,routes.routeToken,routes.routeLabels,routes.polyline"
+        },
+        body: bodyEcologique,
+      );
+
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+      print('Response body: ${responseEcologique.body}');
+
+      if (response.statusCode == 200 && responseEcologique.statusCode == 200) {
+        Map<String, dynamic> responseBody = jsonDecode(response.body);
+        Map<String, dynamic> responseBodyEcologique =
+            jsonDecode(responseEcologique.body);
+
+        List<dynamic> routes = responseBody['routes'];
+        List<dynamic> routesEcologique = responseBodyEcologique['routes'];
+
+        if (routes.isNotEmpty && routesEcologique.isNotEmpty) {
+          _fastestRoute = routes.first;
+          _ecologicalRoute = routesEcologique.first;
+
+          print("Fast *********************: ${_fastestRoute}");
+
+          setState(() {
+            _searchResults = [
+              {
+                'title': 'Fastest Route',
+                'details': _fastestRoute as Map<String, dynamic>
+              },
+              {
+                'title': 'Most Ecological Route',
+                'details': _ecologicalRoute as Map<String, dynamic>
+              },
+            ];
+          });
+        } else {
+          print('No matches found');
+          setState(() {
+            _searchResults = [];
+          });
+        }
+      } else {
+        print('Error: Response status ${response.statusCode}');
+        setState(() {
+          _searchResults = [];
+        });
+      }
+
+      setState(() {
+        _searchResults = [
+          {
+            'title': 'Fastest Route',
+            'details': _fastestRoute as Map<String, dynamic>
+          },
+          {
+            'title': 'Most Ecological Route',
+            'details': _ecologicalRoute as Map<String, dynamic>
+          },
+        ];
+      });
+    }
+  }
+
+  void _showRouteDetails(Map<String, dynamic> routeDetails) {
+    PolylinePoints polylinePoints = PolylinePoints();
+    List<PointLatLng> result = polylinePoints
+        .decodePolyline(routeDetails['polyline']['encodedPolyline']);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Container(
+            child: Card(
+              color: Colors.green,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.0),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _buildInfoRow(
+                      Icons.access_time,
+                      "Duration",
+                      routeDetails['localizedValues']['duration']['text'] ??
+                          'N/A',
+                    ),
+                    _buildInfoRow(
+                      Icons.directions_car,
+                      "Distance in Miles",
+                      routeDetails['localizedValues']['distance']['text'] ??
+                          'N/A',
+                    ),
+                    _buildInfoRow(
+                      Icons.trending_up,
+                      "Distance in Meters",
+                      routeDetails['distanceMeters'].toString(),
+                    ),
+                    _buildInfoRow(
+                      Icons.warning,
+                      "Warnings",
+                      routeDetails['warnings'].toString(),
+                    ),
+                    _buildInfoRow(
+                      Icons.local_gas_station,
+                      "Fuel Consumption",
+                      routeDetails['travelAdvisory']
+                              ['fuelConsumptionMicroliters'] ??
+                          'N/A',
+                    ),
+                    SizedBox(height: 16.0),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Handle navigation logic here
+                        Navigator.push(context, 
+                        MaterialPageRoute(builder: (context)=> CollapsingAppbarPage(polylinePoints: result)));// Close the dialog
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.greenAccent,
+                      ),
+                      child: Text("Navigate",
+                          style: TextStyle(color: Colors.black)),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildInfoRow(IconData icon, String title, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        children: [
+          Icon(icon, color: Colors.white),
+          SizedBox(width: 8.0),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: TextStyle(color: Colors.white),
+              ),
+              Text(
+                value,
+                style: TextStyle(color: Colors.white),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Recherche Itinéraire'),
+        title: const Text('Route Search'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -39,8 +291,12 @@ class _SearchPageState extends State<SearchPage> {
           children: <Widget>[
             TextFormField(
               controller: _startController,
+              onChanged: (position) {
+                currentPosition = position;
+                print("The current position is $currentPosition");
+              },
               decoration: const InputDecoration(
-                labelText: 'Votre position',
+                labelText: 'Your Position',
                 border: OutlineInputBorder(),
                 suffixIcon: Icon(Icons.my_location),
               ),
@@ -48,6 +304,10 @@ class _SearchPageState extends State<SearchPage> {
             const SizedBox(height: 16),
             TextFormField(
               controller: _destinationController,
+              onChanged: (position) {
+                destination = position;
+                print("The destination is $destination");
+              },
               decoration: const InputDecoration(
                 labelText: 'Destination',
                 border: OutlineInputBorder(),
@@ -57,16 +317,7 @@ class _SearchPageState extends State<SearchPage> {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _search,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-                padding: const EdgeInsets.symmetric(horizontal: 100),
-              ),
-              child: const Text(
-                'Recherche',
-                style: TextStyle(
-                  color: Colors.black,
-                ), // Set the text color here
-              ),
+              child: const Text('Search'),
             ),
             const SizedBox(height: 16),
             Expanded(
@@ -74,10 +325,10 @@ class _SearchPageState extends State<SearchPage> {
                 itemCount: _searchResults.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    title: Text(_searchResults[index]),
+                    title: Text(_searchResults[index]['title']),
                     leading: const Icon(Icons.place),
                     onTap: () {
-                      // Implémentez ce qui se passe quand on appuie sur un résultat
+                      _showRouteDetails(_searchResults[index]['details']);
                     },
                   );
                 },
@@ -102,14 +353,14 @@ class _SearchPageState extends State<SearchPage> {
                 text: 'Home',
               ),
               GButton(
-                icon: Icons.favorite,
-                text: 'Favoris',
+                icon: Icons.history,
+                text: 'Favorites',
               ),
               GButton(
                 icon: Icons.add,
-                text: 'Ajouter',
+                text: 'Add',
               ),
-              GButton(icon: Icons.account_circle, text: 'Profil')
+              GButton(icon: Icons.account_circle, text: 'Profile')
             ],
           ),
         ),
