@@ -67,7 +67,7 @@ class CollapsingAppbarPage extends StatelessWidget {
                     margin: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 8.0),
                     decoration: BoxDecoration(
-                      border: Border.all(color: const Color(0xFFE0E0E0)),
+                      border: Border.all(color: Colors.green),
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     padding: const EdgeInsets.all(8),
