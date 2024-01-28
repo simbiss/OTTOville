@@ -5,6 +5,8 @@ import '/serviceMeteo/meteoModel.dart';
 import '/serviceMeteo/meteoService.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'SearchPage.dart';
+import 'pageMap.dart';
 
 class PageMeteo extends StatefulWidget {
   const PageMeteo({Key? key}) : super(key: key);
@@ -302,20 +304,99 @@ class _PageMeteoState extends State<PageMeteo> {
               activeColor: Theme.of(context).colorScheme.onPrimary,
               gap: 12,
               padding: const EdgeInsets.all(20),
-              tabs: const [
+              tabs: [
                 GButton(
-                  icon: Icons.home,
-                  text: 'Home',
+                  icon: Icons.map_outlined,
+                  text: 'Map',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            const CollapsingAppbarPage(
+                          polylinePoints: [],
+                        ), //remplacer par le nom de la  page
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                          var begin = const Offset(1.0, 1.0);
+                          var end = Offset.zero;
+                          var curve = Curves.ease;
+
+                          final tween = Tween(begin: begin, end: end);
+                          final curvedAnimation = CurvedAnimation(
+                            parent: animation,
+                            curve: curve,
+                          );
+
+                          return SlideTransition(
+                            position: tween.animate(curvedAnimation),
+                            child: child,
+                          );
+                        },
+                      ),
+                    );
+                  },
                 ),
                 GButton(
-                  icon: Icons.favorite,
-                  text: 'Favoris',
+                  icon: Icons.search,
+                  text: 'Search',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            const SearchPage(), //remplacer par le nom de la  page
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                          var begin = const Offset(1.0, 1.0);
+                          var end = Offset.zero;
+                          var curve = Curves.ease;
+
+                          final tween = Tween(begin: begin, end: end);
+                          final curvedAnimation = CurvedAnimation(
+                            parent: animation,
+                            curve: curve,
+                          );
+
+                          return SlideTransition(
+                            position: tween.animate(curvedAnimation),
+                            child: child,
+                          );
+                        },
+                      ),
+                    );
+                  },
                 ),
                 GButton(
-                  icon: Icons.add,
-                  text: 'Ajouter',
-                ),
-                GButton(icon: Icons.account_circle, text: 'Profil')
+                  icon: Icons.account_circle,
+                  text: 'Profil',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            const SearchPage(), //remplacer par le nom de la  page
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                          var begin = const Offset(1.0, 1.0);
+                          var end = Offset.zero;
+                          var curve = Curves.ease;
+
+                          final tween = Tween(begin: begin, end: end);
+                          final curvedAnimation = CurvedAnimation(
+                            parent: animation,
+                            curve: curve,
+                          );
+
+                          return SlideTransition(
+                            position: tween.animate(curvedAnimation),
+                            child: child,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                )
               ],
             ),
           ),

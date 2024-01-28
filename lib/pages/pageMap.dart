@@ -50,7 +50,6 @@ class _CollapsingAppbarPageState extends State<CollapsingAppbarPage> {
                   background: GoogleMap(
                     trafficEnabled: true,
                     myLocationEnabled: true,
-                    
                     polylines: _createPolylines(),
                     onMapCreated: onMapCreated,
                     initialCameraPosition: const CameraPosition(
@@ -102,7 +101,7 @@ class _CollapsingAppbarPageState extends State<CollapsingAppbarPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 100),
                 ),
                 child: const Text(
-                  'Recherche',
+                  'Search',
                   style: TextStyle(
                     color: Colors.black,
                   ), // Set the text color here
@@ -201,24 +200,94 @@ class _CollapsingAppbarPageState extends State<CollapsingAppbarPage> {
             padding: const EdgeInsets.all(20),
             tabs: [
               GButton(
-                icon: Icons.home,
-                text: 'Home',
-              ),
-              GButton(
-                icon: Icons.sunny,
-                text: 'Météo',
+                icon: Icons.search,
+                text: 'Search',
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            PageMeteo()), // Replace WeatherPage with the actual page you want to navigate to
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          const SearchPage(), //remplacer par le nom de la  page
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        var begin = const Offset(1.0, 1.0);
+                        var end = Offset.zero;
+                        var curve = Curves.ease;
+
+                        final tween = Tween(begin: begin, end: end);
+                        final curvedAnimation = CurvedAnimation(
+                          parent: animation,
+                          curve: curve,
+                        );
+
+                        return SlideTransition(
+                          position: tween.animate(curvedAnimation),
+                          child: child,
+                        );
+                      },
+                    ),
                   );
                 },
               ),
               GButton(
-                icon: Icons.chat,
-                text: 'Chat',
+                icon: Icons.sunny,
+                text: 'Meteo',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          const PageMeteo(), //remplacer par le nom de la  page
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        var begin = const Offset(1.0, 1.0);
+                        var end = Offset.zero;
+                        var curve = Curves.ease;
+
+                        final tween = Tween(begin: begin, end: end);
+                        final curvedAnimation = CurvedAnimation(
+                          parent: animation,
+                          curve: curve,
+                        );
+
+                        return SlideTransition(
+                          position: tween.animate(curvedAnimation),
+                          child: child,
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
+              GButton(
+                icon: Icons.account_circle,
+                text: 'Profil',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          const SearchPage(), //remplacer par le nom de la  page
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        var begin = const Offset(1.0, 1.0);
+                        var end = Offset.zero;
+                        var curve = Curves.ease;
+
+                        final tween = Tween(begin: begin, end: end);
+                        final curvedAnimation = CurvedAnimation(
+                          parent: animation,
+                          curve: curve,
+                        );
+
+                        return SlideTransition(
+                          position: tween.animate(curvedAnimation),
+                          child: child,
+                        );
+                      },
+                    ),
+                  );
+                },
               ),
             ],
           ),

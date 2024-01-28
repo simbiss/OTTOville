@@ -7,6 +7,8 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:http/http.dart' as http;
 import 'package:geocoding/geocoding.dart';
 import 'RouteDetailsPage.dart';
+import 'pageMap.dart';
+import 'pageMeteo.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -39,20 +41,19 @@ class _SearchPageState extends State<SearchPage> {
     if (response != null) {
       Map<String, dynamic> responseBody = jsonDecode(response);
 
-        List<dynamic> predictions = [];
-        for (var i = 0; i < responseBody['predictions'].length; i++){
-          predictions.add(responseBody['predictions'][i]['description']);
-        }
+      List<dynamic> predictions = [];
+      for (var i = 0; i < responseBody['predictions'].length; i++) {
+        predictions.add(responseBody['predictions'][i]['description']);
+      }
 
-        if (predictions.isNotEmpty) {
+      if (predictions.isNotEmpty) {
+        print("First *********************: ${predictions.first}");
 
-          print("First *********************: ${predictions.first}");
-
-            setState(() {
-              _predictionResults = predictions;
-          });
+        setState(() {
+          _predictionResults = predictions;
+        });
+      }
     }
-  }
   }
 
   void _search() async {
@@ -315,7 +316,7 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-    @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -381,7 +382,8 @@ class _SearchPageState extends State<SearchPage> {
                                 if (_activeTextField == ActiveTextField.start) {
                                   currentPosition = _predictionResults[index];
                                   _startController.text = currentPosition;
-                                } else if (_activeTextField == ActiveTextField.destination) {
+                                } else if (_activeTextField ==
+                                    ActiveTextField.destination) {
                                   destination = _predictionResults[index];
                                   _destinationController.text = destination;
                                 }
@@ -428,20 +430,99 @@ class _SearchPageState extends State<SearchPage> {
             activeColor: Theme.of(context).colorScheme.onPrimary,
             gap: 12,
             padding: const EdgeInsets.all(20),
-            tabs: const [
+            tabs: [
               GButton(
-                icon: Icons.home,
-                text: 'Home',
+                icon: Icons.map,
+                text: 'Map',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          const CollapsingAppbarPage(
+                        polylinePoints: [],
+                      ), //remplacer par le nom de la  page
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        var begin = const Offset(1.0, 1.0);
+                        var end = Offset.zero;
+                        var curve = Curves.ease;
+
+                        final tween = Tween(begin: begin, end: end);
+                        final curvedAnimation = CurvedAnimation(
+                          parent: animation,
+                          curve: curve,
+                        );
+
+                        return SlideTransition(
+                          position: tween.animate(curvedAnimation),
+                          child: child,
+                        );
+                      },
+                    ),
+                  );
+                },
               ),
               GButton(
-                icon: Icons.history,
-                text: 'Favorites',
+                icon: Icons.sunny,
+                text: 'Meteo',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          const PageMeteo(), //remplacer par le nom de la  page
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        var begin = const Offset(1.0, 1.0);
+                        var end = Offset.zero;
+                        var curve = Curves.ease;
+
+                        final tween = Tween(begin: begin, end: end);
+                        final curvedAnimation = CurvedAnimation(
+                          parent: animation,
+                          curve: curve,
+                        );
+
+                        return SlideTransition(
+                          position: tween.animate(curvedAnimation),
+                          child: child,
+                        );
+                      },
+                    ),
+                  );
+                },
               ),
               GButton(
-                icon: Icons.add,
-                text: 'Add',
-              ),
-              GButton(icon: Icons.account_circle, text: 'Profile')
+                icon: Icons.account_circle,
+                text: 'Profile',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          const SearchPage(), //remplacer par le nom de la  page
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        var begin = const Offset(1.0, 1.0);
+                        var end = Offset.zero;
+                        var curve = Curves.ease;
+
+                        final tween = Tween(begin: begin, end: end);
+                        final curvedAnimation = CurvedAnimation(
+                          parent: animation,
+                          curve: curve,
+                        );
+
+                        return SlideTransition(
+                          position: tween.animate(curvedAnimation),
+                          child: child,
+                        );
+                      },
+                    ),
+                  );
+                },
+              )
             ],
           ),
         ),
