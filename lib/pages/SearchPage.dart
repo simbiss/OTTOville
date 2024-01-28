@@ -102,12 +102,8 @@ class _SearchPageState extends State<SearchPage> {
                 text: 'Home',
               ),
               GButton(
-                icon: Icons.favorite,
-                text: 'Favoris',
-              ),
-              GButton(
-                icon: Icons.add,
-                text: 'Ajouter',
+                icon: Icons.sunny,
+                text: 'Meteo',
               ),
               GButton(icon: Icons.account_circle, text: 'Profil')
             ],

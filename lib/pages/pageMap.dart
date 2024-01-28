@@ -140,13 +140,9 @@ class CollapsingAppbarPage extends StatelessWidget {
                                     onPressed: () {},
                                   ),
                                   IconButton(
-                                    icon: const Icon(Icons.directions),
+                                    icon: const Icon(Icons.account_circle),
                                     onPressed: () {},
                                   ),
-                                  //IconButton(
-                                  //  icon: const Icon(Icons.more_vert),
-                                  //  onPressed: () {},
-                                  //),
                                 ],
                               ),
                             ],
