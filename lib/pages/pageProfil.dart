@@ -32,6 +32,7 @@ class _pageProfilState extends State<pageProfil> {
 
     print("eco score ${ecoScore}");
 
+
     return Scaffold(
       appBar: AppBar(
         title: Text('User Activities'),
@@ -41,49 +42,54 @@ class _pageProfilState extends State<pageProfil> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Total Trips: $totalScore',
-              style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+            ListTile(
+              leading: Icon(Icons.directions_car),
+              title: Text('Total Trips: $totalScore',
+                  style: TextStyle(fontSize: 20.0)),
             ),
-            Text(
-              'EcoFriendly Trips: $ecoScore',
-              style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+            ListTile(
+              leading: Icon(Icons.eco),
+              title: Text('Eco-Friendly Trips: $ecoScore',
+                  style: TextStyle(fontSize: 20.0)),
             ),
-            SizedBox(height: 8.0),
-            Text(
-              'Percentage: ${percentage.toStringAsFixed(2)}%',
-              style: TextStyle(fontSize: 20.0),
+            SizedBox(height: 16.0),
+            ListTile(
+              leading: Icon(Icons.show_chart),
+              title: Text('Percentage: ${percentage.toStringAsFixed(2)}%',
+                  style: TextStyle(fontSize: 20.0)),
             ),
-            SizedBox(height: 20.0),
+            Divider(height: 32.0, thickness: 2.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Dark Mode'),
+                Text('Dark Mode', style: TextStyle(fontSize: 18.0)),
                 Switch(
                   value: isDarkModeEnabled,
                   onChanged: (value) {
                     setState(() {
                       isDarkModeEnabled = value;
-                      // Appliquer ici la logique pour activer/désactiver le mode sombre
+                      // Apply logic to enable/disable dark mode
                     });
                   },
                 ),
               ],
             ),
             SizedBox(height: 20.0),
-            const Text(
-              'Eco-Friendly',
-              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10.0),
-            Text(
-              percentage >= 50
-                  ? 'You are Eco-Friendly! 🌿'
-                  : 'You can do better! 🚫',
-              style: TextStyle(
-                fontSize: 16.0,
-                color: percentage >= 50 ? Colors.green : Colors.red,
+            ListTile(
+              title: Text(
+                'Eco-Friendly Status',
+                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
               ),
+              subtitle: Text(
+                percentage >= 50
+                    ? 'You are Eco-Friendly! 🌿'
+                    : 'You can do better! 🚫',
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: percentage >= 50 ? Colors.green : Colors.red,
+                ),
+              ),
+              leading: Icon(Icons.nature_people),
             ),
           ],
         ),
