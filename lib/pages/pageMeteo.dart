@@ -64,6 +64,16 @@ class _PageMeteoState extends State<PageMeteo> {
     });
   }
 
+  String CheckDanger(String condition) {
+    if (condition.contains("Rain".toLowerCase()) ||
+        condition.contains("Snow".toLowerCase()) ||
+        condition.contains("icy".toLowerCase())) {
+      print(temperatureC);
+      return "Stay vigilent";
+    }
+    return "Conditions are good";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -116,7 +126,7 @@ class _PageMeteoState extends State<PageMeteo> {
                 ),
                 SizedBox(height: 1),
                 Text(
-                  'Current Time: ${currentTime.hour}:${currentTime.minute.toString().padLeft(2, '0')}',
+                  CheckDanger(condition),
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.grey[700],
