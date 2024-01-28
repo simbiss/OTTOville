@@ -1,9 +1,12 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:http/http.dart' as http;
 import 'package:geocoding/geocoding.dart';
+import 'package:provider/provider.dart';
+import '../main.dart';
 import 'RouteDetailsPage.dart';
 import 'pageMap.dart';
 
@@ -125,10 +128,6 @@ class _SearchPageState extends State<SearchPage> {
         body: bodyEcologique,
       );
 
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.body}');
-      print('Response body: ${responseEcologique.body}');
-
       if (response.statusCode == 200 && responseEcologique.statusCode == 200) {
         Map<String, dynamic> responseBody = jsonDecode(response.body);
         Map<String, dynamic> responseBodyEcologique =
@@ -140,8 +139,6 @@ class _SearchPageState extends State<SearchPage> {
         if (routes.isNotEmpty && routesEcologique.isNotEmpty) {
           _fastestRoute = routes.first;
           _ecologicalRoute = routesEcologique.first;
-
-          print("Fast *********************: ${_fastestRoute}");
 
           setState(() {
             _searchResults = [
@@ -172,19 +169,52 @@ class _SearchPageState extends State<SearchPage> {
         _searchResults = [
           {
             'title': 'Fastest Route',
-            'details': _fastestRoute as Map<String, dynamic>
+            'details': _fastestRoute as Map<String, dynamic>,
+            'onTap': () => _handleRouteSelection('Fastest Route'),
           },
           {
-            'title': 'Most Ecological Route',
-            'details': _ecologicalRoute as Map<String, dynamic>
+            'title': 'Ecological Route',
+            'details': _ecologicalRoute as Map<String, dynamic>,
+            'onTap': () => _handleRouteSelection('Ecological Route'),
           },
         ];
       });
     }
   }
 
-  void _showRouteDetails(Map<String, dynamic> routeDetails) {
+  void _handleRouteSelection(String type) {
+    _saveRoute(type);
+  }
+
+  void _saveRoute(String type) {
+    MyAppState appState = context.read<MyAppState>();
+
+    if (type == 'Fastest Route') {
+      appState.routeCounter.saveRoute('Fastest Route');
+      appState.notifyListeners();
+      print(
+          "voici le route conter voici  ${appState.routeCounter.countRapide}");
+    } else if (type == 'Ecological Route') {
+      appState.routeCounter.saveRoute('Ecological Route');
+      appState.notifyListeners();
+      print(
+          "voici le route conter ecologique ${appState.routeCounter.countEcologique}");
+    }
+  }
+
+  double calculateCO2Emissions(double distanceInMEters) {
+    double distanceInKm = distanceInMEters / 1000.0;
+    const double emissionFactor = 120;
+    double co2Emissions = distanceInKm * emissionFactor;
+    return co2Emissions;
+  }
+
+  void _showRouteDetails(Map<String, dynamic> routeDetails, String type) {
     PolylinePoints polylinePoints = PolylinePoints();
+    String dmeters = routeDetails['distanceMeters'].toString();
+    double distanceInMeters = double.parse(dmeters);
+    double distanceInKm = distanceInMeters / 1000.0;
+
     List<PointLatLng> result = polylinePoints
         .decodePolyline(routeDetails['polyline']['encodedPolyline']);
     showDialog(
@@ -232,15 +262,23 @@ class _SearchPageState extends State<SearchPage> {
                                 ['fuelConsumptionMicroliters'] ??
                             'N/A',
                       ),
+                      _buildInfoRow(
+                        Icons.eco,
+                        "CO2 Emissions",
+                        "120 g/km",
+                      ),
                       SizedBox(height: 16.0),
                       ElevatedButton(
                         onPressed: () {
+                          _saveRoute(type);
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => CollapsingAppbarPage(
-                                      polylinePoints:
-                                          result))); // Close the dialog
+                                        polylinePoints: result,
+                                        co2Emissions: calculateCO2Emissions(
+                                            distanceInMeters),
+                                      ))); // Close the dialog
                         },
                         style: ElevatedButton.styleFrom(
                           primary: Colors.greenAccent,
@@ -335,7 +373,8 @@ class _SearchPageState extends State<SearchPage> {
                     title: Text(_searchResults[index]['title']),
                     leading: const Icon(Icons.place),
                     onTap: () {
-                      _showRouteDetails(_searchResults[index]['details']);
+                      _showRouteDetails(_searchResults[index]['details'],
+                          _searchResults[index]['title']);
                     },
                   );
                 },

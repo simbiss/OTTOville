@@ -224,6 +224,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "nested",
+      "rootUri": "file:///C:/Users/othma/AppData/Local/Pub/Cache/hosted/pub.dev/nested-1.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "path",
       "rootUri": "file:///C:/Users/othma/AppData/Local/Pub/Cache/hosted/pub.dev/path-1.8.3",
       "packageUri": "lib/",
@@ -234,6 +240,12 @@
       "rootUri": "file:///C:/Users/othma/AppData/Local/Pub/Cache/hosted/pub.dev/plugin_platform_interface-2.1.8",
       "packageUri": "lib/",
       "languageVersion": "3.0"
+    },
+    {
+      "name": "provider",
+      "rootUri": "file:///C:/Users/othma/AppData/Local/Pub/Cache/hosted/pub.dev/provider-6.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "sanitize_html",
@@ -314,7 +326,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2024-01-28T07:34:16.863313Z",
+  "generated": "2024-01-28T11:26:57.678461Z",
   "generator": "pub",
   "generatorVersion": "3.2.3"
 }

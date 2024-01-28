@@ -1,4 +1,5 @@
 import 'package:app_ets_projet_durable/pages/pageMap.dart';
+import 'package:app_ets_projet_durable/pages/pageProfil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
@@ -62,15 +63,15 @@ class RouteDetailsPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CollapsingAppbarPage(polylinePoints: result),
+                          builder: (context) => pageProfil(),
                         ),
                       );
                     },
                     style: ElevatedButton.styleFrom(
                       primary: Colors.greenAccent,
                     ),
-                    child:
-                        const Text("Navigate", style: TextStyle(color: Colors.black)),
+                    child: const Text("Navigate",
+                        style: TextStyle(color: Colors.black)),
                   ),
                 ],
               ),

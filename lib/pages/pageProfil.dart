@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:provider/provider.dart';
+
+import '../main.dart';
+import 'RouteConter.dart';
 
 class pageProfil extends StatefulWidget {
   @override
@@ -8,14 +12,27 @@ class pageProfil extends StatefulWidget {
 
 class _pageProfilState extends State<pageProfil> {
   bool isDarkModeEnabled = false;
-  bool isEcoFriendly = true;
-  int userScore = 80;
 
   @override
   Widget build(BuildContext context) {
+    MyAppState appState = context.read<MyAppState>();
+
+    int ecoScore = appState.routeCounter.countEcologique;
+    int rapideScore = appState.routeCounter.countRapide;
+
+    int maxValue = 10;
+
+    int totalScore = ecoScore + rapideScore;
+    int totalScorePercentage = ecoScore - rapideScore;
+
+    double percentage =
+        (totalScorePercentage / maxValue * 100).clamp(0.0, 100.0);
+
+    print("eco score ${ecoScore}");
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('User Profile'),
+        title: Text('User Activities'),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -23,8 +40,17 @@ class _pageProfilState extends State<pageProfil> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'User Score: $userScore',
+              'Total Trips: $totalScore',
               style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+            ),
+            Text(
+              'EcoFriendly Trips: $ecoScore',
+              style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8.0),
+            Text(
+              'Percentage: ${percentage.toStringAsFixed(2)}%',
+              style: TextStyle(fontSize: 20.0),
             ),
             SizedBox(height: 20.0),
             Row(
@@ -49,12 +75,12 @@ class _pageProfilState extends State<pageProfil> {
             ),
             SizedBox(height: 10.0),
             Text(
-              isEcoFriendly
+              percentage >= 50
                   ? 'You are Eco-Friendly! 🌿'
                   : 'You can do better! 🚫',
               style: TextStyle(
                 fontSize: 16.0,
-                color: isEcoFriendly ? Colors.green : Colors.red,
+                color: percentage >= 50 ? Colors.green : Colors.red,
               ),
             ),
           ],

@@ -1,10 +1,23 @@
+import 'package:app_ets_projet_durable/pages/pageProfil.dart';
+import 'package:provider/provider.dart';
+
+import 'pages/RouteConter.dart';
 import 'pages/SearchPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'pages/pageMap.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<MyAppState>(
+          create: (context) => MyAppState(),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -98,7 +111,11 @@ class MyApp extends StatelessWidget {
         // To use the Playground font, add GoogleFonts package and uncomment
         // fontFamily: GoogleFonts.notoSans().fontFamily,
       ),
-      home: const SearchPage(),
+      home: pageProfil(),
     );
   }
+}
+
+class MyAppState extends ChangeNotifier {
+  RouteCounter routeCounter = RouteCounter();
 }
