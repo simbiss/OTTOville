@@ -1,11 +1,25 @@
 import 'package:app_ets_projet_durable/pages/Trajet.dart';
+import 'package:app_ets_projet_durable/pages/pageMeteo.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'SearchPage.dart';
+import 'package:http/http.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
-class CollapsingAppbarPage extends StatelessWidget {
-  const CollapsingAppbarPage({Key? key}) : super(key: key);
+class CollapsingAppbarPage extends StatefulWidget {
+  const CollapsingAppbarPage({Key? key, required this.polylinePoints})
+      : super(key: key);
+  final List<PointLatLng> polylinePoints;
+
+  @override
+  State<CollapsingAppbarPage> createState() => _CollapsingAppbarPageState();
+}
+
+class _CollapsingAppbarPageState extends State<CollapsingAppbarPage> {
+  final Set<Polyline> _polyline = {};
 
   @override
   Widget build(BuildContext context) {
@@ -21,38 +35,76 @@ class CollapsingAppbarPage extends StatelessWidget {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
-                expandedHeight: 650.0,
+                expandedHeight: 550.0,
                 floating: false,
                 pinned: true,
                 stretch: true,
                 flexibleSpace: FlexibleSpaceBar(
                   centerTitle: true,
                   collapseMode: CollapseMode.parallax,
-                  title: const Text("Collapsing Appbar",
+                  title: const Text(" ",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16.0,
                       )),
                   background: GoogleMap(
+                    polylines: _createPolylines(),
                     onMapCreated: onMapCreated,
                     initialCameraPosition: const CameraPosition(
                       target: center,
                       zoom: 11.0,
                     ),
+                    gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
+                      Factory<OneSequenceGestureRecognizer>(
+                        () => EagerGestureRecognizer(),
+                      ),
+                    },
                   ),
                 )),
           ];
         },
         body: Center(
           child: Column(children: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SearchPage()),
-                );
-              },
-              child: const Text('Recherche'),
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          const SearchPage(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        var begin = const Offset(1.0, 1.0);
+                        var end = Offset.zero;
+                        var curve = Curves.ease;
+
+                        final tween = Tween(begin: begin, end: end);
+                        final curvedAnimation = CurvedAnimation(
+                          parent: animation,
+                          curve: curve,
+                        );
+
+                        return SlideTransition(
+                          position: tween.animate(curvedAnimation),
+                          child: child,
+                        );
+                      },
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  padding: const EdgeInsets.symmetric(horizontal: 100),
+                ),
+                child: const Text(
+                  'Recherche',
+                  style: TextStyle(
+                    color: Colors.black,
+                  ), // Set the text color here
+                ),
+              ),
             ),
             Expanded(
               // wrap in Expanded
@@ -144,7 +196,7 @@ class CollapsingAppbarPage extends StatelessWidget {
             activeColor: Theme.of(context).colorScheme.onPrimary,
             gap: 12,
             padding: const EdgeInsets.all(20),
-            tabs: const [
+            tabs: [
               GButton(
                 icon: Icons.home,
                 text: 'Home',
@@ -152,6 +204,14 @@ class CollapsingAppbarPage extends StatelessWidget {
               GButton(
                 icon: Icons.sunny,
                 text: 'Météo',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            PageMeteo()), // Replace WeatherPage with the actual page you want to navigate to
+                  );
+                },
               ),
               GButton(
                 icon: Icons.chat,
@@ -162,6 +222,24 @@ class CollapsingAppbarPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Set<Polyline> _createPolylines() {
+    if (widget.polylinePoints.isEmpty) {
+      return Set<Polyline>();
+    }
+    List<LatLng> latLngList = widget.polylinePoints.map((point) {
+      return LatLng(point.latitude, point.longitude);
+    }).toList();
+
+    Polyline polyline = Polyline(
+      polylineId: const PolylineId('Google Map'),
+      color: Colors.blue,
+      width: 5,
+      points: latLngList,
+    );
+
+    return {polyline};
   }
 }
 

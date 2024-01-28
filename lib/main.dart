@@ -1,3 +1,4 @@
+import 'pages/SearchPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'pages/pageMap.dart';
@@ -99,7 +100,9 @@ class MyApp extends StatelessWidget {
         // To use the Playground font, add GoogleFonts package and uncomment
         // fontFamily: GoogleFonts.notoSans().fontFamily,
       ),
-      home: const CollapsingAppbarPage(),
+      home: const CollapsingAppbarPage(
+        polylinePoints: [],
+      ),
     );
   }
 }
