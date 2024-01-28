@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'pages/pageMap.dart';
 import 'pages/pageRechercheitineraire.dart';
+import 'pages/pageMeteo.dart';
 
 void main() {
   runApp(const MyApp());
@@ -97,7 +98,7 @@ class MyApp extends StatelessWidget {
         // To use the Playground font, add GoogleFonts package and uncomment
         // fontFamily: GoogleFonts.notoSans().fontFamily,
       ),
-      home: CollapsingAppbarPage(),
+      home: PageMeteo(),
     );
   }
 }
