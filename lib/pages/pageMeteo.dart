@@ -82,10 +82,6 @@ class _PageMeteoState extends State<PageMeteo> {
         elevation: 0,
         backgroundColor: Colors.transparent,
         centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.menu, color: Colors.black),
-          onPressed: () {},
-        ),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -105,8 +101,11 @@ class _PageMeteoState extends State<PageMeteo> {
                 SizedBox(height: 1),
                 Image.network(
                   iconUrl,
-                  width: 100,
-                  height: 100,
+                  width: 60,
+                  height: 60,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Icon(Icons.error);
+                  },
                 ),
                 SizedBox(height: 1),
                 Text(
@@ -142,7 +141,7 @@ class _PageMeteoState extends State<PageMeteo> {
                 ),
                 SizedBox(height: 16),
                 Container(
-                  height: 200,
+                  height: 150,
                   child: weeklyForecast.isNotEmpty
                       ? ListView.builder(
                           scrollDirection: Axis.horizontal,
