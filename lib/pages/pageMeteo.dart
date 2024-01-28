@@ -1,5 +1,6 @@
 import 'package:app_ets_projet_durable/serviceMeteo/airQuality.dart';
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import '/serviceMeteo/meteoModel.dart';
 import '/serviceMeteo/meteoService.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -130,12 +131,24 @@ class _PageMeteoState extends State<PageMeteo> {
                     fontWeight: FontWeight.w300,
                   ),
                 ),
-                SizedBox(height: 1),
-                Text(
-                  'Qualité de l\'air : ${airQuality!.airQualityPercentage.toStringAsFixed(1)}%',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.grey[700],
+                Padding(
+                  padding: EdgeInsets.all(15.0),
+                  child: LinearPercentIndicator(
+                    width: MediaQuery.of(context).size.width - 50,
+                    animation: true,
+                    lineHeight: 20.0,
+                    animationDuration: 2000,
+                    percent: airQuality.airQualityPercentage / 100,
+                    center: Text(
+                        '${airQuality.airQualityPercentage.toStringAsFixed(1)}%'),
+                    linearStrokeCap: LinearStrokeCap.roundAll,
+                    progressColor: airQuality.airQualityPercentage / 100 < 0.25
+                        ? Colors.red
+                        : (airQuality.airQualityPercentage / 100 <= 0.50
+                            ? Colors.orange
+                            : (airQuality.airQualityPercentage / 100 <= 0.75
+                                ? Colors.yellow
+                                : Colors.green)),
                   ),
                 ),
                 SizedBox(height: 1),
