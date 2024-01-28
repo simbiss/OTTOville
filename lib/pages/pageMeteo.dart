@@ -15,9 +15,10 @@ class _PageMeteoState extends State<PageMeteo> {
   Weather weather = Weather();
   List<Weather> weeklyForecast = [];
 
-  String cityName = "Londre";
+  String cityName = "Russia";
   double temperatureC = 0;
   String condition = "";
+  String iconUrl = "";
   DateTime currentTime = DateTime.now();
 
   @override
@@ -32,6 +33,8 @@ class _PageMeteoState extends State<PageMeteo> {
     setState(() {
       condition = weather.condition;
       temperatureC = weather.temperatureC;
+
+      iconUrl = weather.iconUrl;
     });
   }
 
@@ -48,6 +51,7 @@ class _PageMeteoState extends State<PageMeteo> {
         forecasts.add(Weather(
           temperatureC: forecast.upComingAvgtemperatureC,
           condition: forecast.upComingcondition,
+          iconUrl: forecast.iconUrl,
         ));
       } catch (e) {
         print('Error fetching weather data for Day $i: $e');
@@ -76,7 +80,7 @@ class _PageMeteoState extends State<PageMeteo> {
       body: SingleChildScrollView(
         child: Center(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 48.0),
+            padding: EdgeInsets.symmetric(horizontal: 2.0, vertical: 18.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -88,7 +92,13 @@ class _PageMeteoState extends State<PageMeteo> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 8),
+                SizedBox(height: 1),
+                Image.network(
+                  iconUrl,
+                  width: 100,
+                  height: 100,
+                ),
+                SizedBox(height: 1),
                 Text(
                   "${temperatureC.toStringAsFixed(1)}°C",
                   style: TextStyle(
@@ -96,7 +106,7 @@ class _PageMeteoState extends State<PageMeteo> {
                     fontWeight: FontWeight.w300,
                   ),
                 ),
-                SizedBox(height: 8),
+                SizedBox(height: 1),
                 Text(
                   condition,
                   style: TextStyle(
@@ -104,7 +114,7 @@ class _PageMeteoState extends State<PageMeteo> {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                SizedBox(height: 24),
+                SizedBox(height: 1),
                 Text(
                   'Current Time: ${currentTime.hour}:${currentTime.minute.toString().padLeft(2, '0')}',
                   style: TextStyle(
@@ -122,7 +132,7 @@ class _PageMeteoState extends State<PageMeteo> {
                 ),
                 SizedBox(height: 16),
                 Container(
-                  height: 200, // Make sure this height is enough
+                  height: 200,
                   child: weeklyForecast.isNotEmpty
                       ? ListView.builder(
                           scrollDirection: Axis.horizontal,
@@ -133,11 +143,18 @@ class _PageMeteoState extends State<PageMeteo> {
                                 padding: EdgeInsets.all(8.0),
                                 child: Column(
                                   children: <Widget>[
-                                    Text(
-                                      'Day ${index + 1}',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
+                                    Image.network(
+                                      weeklyForecast[index].iconUrl,
+                                      width: 50,
+                                      height: 50,
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        return Icon(Icons.error);
+                                      },
                                     ),
+                                    Text('Day ${index + 1}',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
                                     Text(
                                         '${weeklyForecast[index].temperatureC}°C'),
                                     Text(weeklyForecast[index].condition),
