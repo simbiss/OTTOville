@@ -2,6 +2,7 @@ import 'package:app_ets_projet_durable/pages/Trajet.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'SearchPage.dart';
 
 class CollapsingAppbarPage extends StatelessWidget {
   const CollapsingAppbarPage({Key? key}) : super(key: key);
@@ -42,58 +43,77 @@ class CollapsingAppbarPage extends StatelessWidget {
                 )),
           ];
         },
-        body: ListView.builder(
-          itemCount: trajets.length,
-          itemBuilder: (BuildContext context, int index) {
-            final item = trajets[index];
-            return Container(
-              height: 136,
-              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8.0),
-              decoration: BoxDecoration(
-                border: Border.all(color: const Color(0xFFE0E0E0)),
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              padding: const EdgeInsets.all(8),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          item.Id,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          "${item.PositionDepart} · ${item.PositionArrivee}",
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                        const SizedBox(height: 8),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.bookmark_border_rounded),
-                              onPressed: () {},
-                            ),
-                            IconButton(
-                              icon: const Icon(Icons.share),
-                              onPressed: () {},
-                            ),
-                            IconButton(
-                              icon: const Icon(Icons.more_vert),
-                              onPressed: () {},
-                            ),
-                          ],
-                        ),
-                      ],
+        body: Center(
+          child: Column(children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SearchPage()),
+                );
+              },
+              child: const Text('Recherche'),
+            ),
+            Expanded(
+              // wrap in Expanded
+              child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: trajets.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final item = trajets[index];
+                  return Container(
+                    height: 150,
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 8.0),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: const Color(0xFFE0E0E0)),
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
-                  ),
-                  /*Container(
+                    padding: const EdgeInsets.all(8),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                item.Id,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                "${item.PositionDepart} · ${item.PositionArrivee}",
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
+                              const SizedBox(height: 8),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(
+                                        Icons.bookmark_border_rounded),
+                                    onPressed: () {},
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(Icons.share),
+                                    onPressed: () {},
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(Icons.more_vert),
+                                    onPressed: () {},
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        /*Container(
                     width: 100,
                     height: 100,
                     decoration: BoxDecoration(
@@ -105,10 +125,13 @@ class CollapsingAppbarPage extends StatelessWidget {
                       ),
                     ),
                   ),*/
-                ],
+                      ],
+                    ),
+                  );
+                },
               ),
-            );
-          },
+            ),
+          ]),
         ),
       ),
       bottomNavigationBar: Container(
