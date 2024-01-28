@@ -43,7 +43,6 @@ class CollapsingAppbarPage extends StatelessWidget {
                 )),
           ];
         },
-<<<<<<< HEAD
         body: Center(
           child: Column(children: [
             ElevatedButton(
@@ -70,58 +69,6 @@ class CollapsingAppbarPage extends StatelessWidget {
                     decoration: BoxDecoration(
                       border: Border.all(color: const Color(0xFFE0E0E0)),
                       borderRadius: BorderRadius.circular(8.0),
-=======
-        body: ListView.builder(
-          itemCount: trajets.length,
-          itemBuilder: (BuildContext context, int index) {
-            final item = trajets[index];
-            return Container(
-              height: 136,
-              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8.0),
-              decoration: BoxDecoration(
-                border: Border.all(color: const Color(0xFFE0E0E0)),
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              padding: const EdgeInsets.all(8),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          item.PositionArrivee,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          "Vous êtes à : · ${item.PositionArrivee}",
-                          style: Theme.of(context).textTheme.caption,
-                        ),
-                        const SizedBox(height: 8),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.bookmark_border_rounded),
-                              onPressed: () {},
-                            ),
-                            IconButton(
-                              icon: Icon(Icons.directions),
-                              onPressed: () {},
-                            ),
-                            /*IconButton(
-                              icon: Icon(Icons.more_vert),
-
-                              onPressed: () {},
-                            ),*/
-                          ],
-                        ),
-                      ],
->>>>>>> 5b9b49f6a8d6f9cd1bda53cc863160d2b1b0ddcb
                     ),
                     padding: const EdgeInsets.all(8),
                     child: Row(
@@ -132,7 +79,7 @@ class CollapsingAppbarPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                item.Id,
+                                item.PositionArrivee,
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold),
                                 maxLines: 2,
@@ -140,8 +87,8 @@ class CollapsingAppbarPage extends StatelessWidget {
                               ),
                               const SizedBox(height: 8),
                               Text(
-                                "${item.PositionDepart} · ${item.PositionArrivee}",
-                                style: Theme.of(context).textTheme.bodySmall,
+                                "Vous êtes à : · ${item.PositionArrivee}",
+                                style: Theme.of(context).textTheme.caption,
                               ),
                               const SizedBox(height: 8),
                               Row(
@@ -154,13 +101,13 @@ class CollapsingAppbarPage extends StatelessWidget {
                                     onPressed: () {},
                                   ),
                                   IconButton(
-                                    icon: const Icon(Icons.share),
+                                    icon: const Icon(Icons.directions),
                                     onPressed: () {},
                                   ),
-                                  IconButton(
-                                    icon: const Icon(Icons.more_vert),
-                                    onPressed: () {},
-                                  ),
+                                  //IconButton(
+                                  //  icon: const Icon(Icons.more_vert),
+                                  //  onPressed: () {},
+                                  //),
                                 ],
                               ),
                             ],
@@ -241,7 +188,7 @@ List<Trajet> trajets = [
   Trajet(
     Id: "4",
     PositionDepart: "789 Avenue des Pins, Montreal, QC",
-    PositionArrivee: "2345 Avenue du Mont-Royal, Montreal, QC",
+    PositionArrivee: "2345 Av du Mont-Royal, Montreal, QC",
     QteCo2NonEmis: 12,
   ),
   Trajet(
