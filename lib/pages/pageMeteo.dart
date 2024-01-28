@@ -18,7 +18,7 @@ class _PageMeteoState extends State<PageMeteo> {
   Weather weather = Weather();
   List<Weather> weeklyForecast = [];
 
-  String cityName = "MOntreal";
+  String cityName = "Montreal";
   double temperatureC = 0;
   String condition = "";
   String iconUrl = "";
@@ -165,34 +165,40 @@ class _PageMeteoState extends State<PageMeteo> {
                 ),
                 SizedBox(height: 16),
                 Container(
-                  height: 150,
+                  height: 160,
                   child: weeklyForecast.isNotEmpty
                       ? ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: weeklyForecast.length,
                           itemBuilder: (context, index) {
-                            return Card(
-                              color: Colors.green,
-                              child: Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: <Widget>[
-                                    Image.network(
-                                      weeklyForecast[index].iconUrl,
-                                      width: 50,
-                                      height: 50,
-                                      errorBuilder:
-                                          (context, error, stackTrace) {
-                                        return Icon(Icons.error);
-                                      },
-                                    ),
-                                    Text('Day ${index + 1}',
+                            return SizedBox(
+                              width:
+                                  120, // Set the width as per your requirement
+                              child: Card(
+                                color: Colors.green,
+                                child: Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Column(
+                                    children: <Widget>[
+                                      Image.network(
+                                        weeklyForecast[index].iconUrl,
+                                        width: 50,
+                                        height: 50,
+                                        errorBuilder:
+                                            (context, error, stackTrace) {
+                                          return Icon(Icons.error);
+                                        },
+                                      ),
+                                      Text(
+                                        'Day ${index + 1}',
                                         style: TextStyle(
-                                            fontWeight: FontWeight.bold)),
-                                    Text(
-                                        '${weeklyForecast[index].temperatureC}°C'),
-                                    Text(weeklyForecast[index].condition),
-                                  ],
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                          '${weeklyForecast[index].temperatureC}°C'),
+                                      Text(weeklyForecast[index].condition),
+                                    ],
+                                  ),
                                 ),
                               ),
                             );
