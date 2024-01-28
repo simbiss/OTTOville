@@ -96,7 +96,7 @@ class _PageMeteoState extends State<PageMeteo> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          backgroundColor: Colors.green,
+          backgroundColor: isDangerous ? Colors.blueGrey : Colors.green,
           centerTitle: false,
         ),
         backgroundColor: Colors.white,
@@ -105,8 +105,11 @@ class _PageMeteoState extends State<PageMeteo> {
           padding: EdgeInsets.all(8.0), // Corrected padding here
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: NetworkImage(
-                  'https://i.pinimg.com/564x/ca/0f/56/ca0f5665840af0e3c8e1345a38d21034.jpg'),
+              image: isDangerous
+                  ? NetworkImage(
+                      'https://i.pinimg.com/originals/8c/d6/32/8cd632d1be81bb70020f2e54cacd02fd.gif')
+                  : NetworkImage(
+                      'https://i.pinimg.com/564x/ca/0f/56/ca0f5665840af0e3c8e1345a38d21034.jpg'),
               fit: BoxFit.cover,
             ),
           ),
@@ -123,7 +126,23 @@ class _PageMeteoState extends State<PageMeteo> {
                       controller: waetherLOcationController,
                       decoration: InputDecoration(
                         labelText: 'Votre position',
-                        border: OutlineInputBorder(),
+                        labelStyle: TextStyle(
+                            color:
+                                isDangerous ? Colors.blueGrey : Colors.green),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: isDangerous
+                                  ? Colors.blueGrey
+                                  : Colors
+                                      .green), // Set the color of the border
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: isDangerous
+                                  ? Colors.blueGrey
+                                  : Colors
+                                      .green), // Set the color of the focused border
+                        ),
                       ),
                       onEditingComplete: search,
                     ),
@@ -251,7 +270,9 @@ class _PageMeteoState extends State<PageMeteo> {
                                           Text(
                                             weeklyForecast[index].condition,
                                             style: GoogleFonts.questrial(
-                                              color: Colors.green,
+                                              color: isDangerous
+                                                  ? Colors.blueGrey
+                                                  : Colors.green,
                                               fontSize: 12,
                                               fontWeight: FontWeight.bold,
                                             ),
@@ -305,6 +326,7 @@ class _PageMeteoState extends State<PageMeteo> {
     cityName = waetherLOcationController.text.toUpperCase();
     getWeather();
     getWeeklyForecast();
+    isDangerous = false;
   }
 
   String formatDate(DateTime date) {
