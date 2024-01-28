@@ -58,7 +58,27 @@ class CollapsingAppbarPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const SearchPage()),
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          const SearchPage(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        var begin = const Offset(1.0, 1.0);
+                        var end = Offset.zero;
+                        var curve = Curves.ease;
+
+                        final tween = Tween(begin: begin, end: end);
+                        final curvedAnimation = CurvedAnimation(
+                          parent: animation,
+                          curve: curve,
+                        );
+
+                        return SlideTransition(
+                          position: tween.animate(curvedAnimation),
+                          child: child,
+                        );
+                      },
+                    ),
                   );
                 },
                 style: ElevatedButton.styleFrom(
