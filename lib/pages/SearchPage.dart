@@ -57,7 +57,16 @@ class _SearchPageState extends State<SearchPage> {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _search,
-              child: const Text('Recherche'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+                padding: const EdgeInsets.symmetric(horizontal: 100),
+              ),
+              child: const Text(
+                'Recherche',
+                style: TextStyle(
+                  color: Colors.black,
+                ), // Set the text color here
+              ),
             ),
             const SizedBox(height: 16),
             Expanded(

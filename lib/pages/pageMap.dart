@@ -23,14 +23,14 @@ class CollapsingAppbarPage extends StatelessWidget {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
-                expandedHeight: 650.0,
+                expandedHeight: 550.0,
                 floating: false,
                 pinned: true,
                 stretch: true,
                 flexibleSpace: FlexibleSpaceBar(
                   centerTitle: true,
                   collapseMode: CollapseMode.parallax,
-                  title: const Text("Collapsing Appbar",
+                  title: const Text(" ",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16.0,
@@ -41,25 +41,37 @@ class CollapsingAppbarPage extends StatelessWidget {
                       target: center,
                       zoom: 11.0,
                     ),
-                    gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
+                    gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
                       Factory<OneSequenceGestureRecognizer>(
                         () => EagerGestureRecognizer(),
                       ),
-                    ].toSet(),
+                    },
                   ),
                 )),
           ];
         },
         body: Center(
           child: Column(children: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SearchPage()),
-                );
-              },
-              child: const Text('Recherche'),
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SearchPage()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  padding: const EdgeInsets.symmetric(horizontal: 100),
+                ),
+                child: const Text(
+                  'Recherche',
+                  style: TextStyle(
+                    color: Colors.black,
+                  ), // Set the text color here
+                ),
+              ),
             ),
             Expanded(
               // wrap in Expanded
