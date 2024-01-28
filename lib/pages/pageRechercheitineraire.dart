@@ -194,51 +194,53 @@ class _SearchPageState extends State<SearchPage> {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    _buildInfoRow(
-                      Icons.access_time,
-                      "Duration",
-                      routeDetails['localizedValues']['duration']['text'] ??
-                          'N/A',
-                    ),
-                    _buildInfoRow(
-                      Icons.directions_car,
-                      "Distance in Miles",
-                      routeDetails['localizedValues']['distance']['text'] ??
-                          'N/A',
-                    ),
-                    _buildInfoRow(
-                      Icons.trending_up,
-                      "Distance in Meters",
-                      routeDetails['distanceMeters'].toString(),
-                    ),
-                    _buildInfoRow(
-                      Icons.warning,
-                      "Warnings",
-                      routeDetails['warnings'].toString(),
-                    ),
-                    _buildInfoRow(
-                      Icons.local_gas_station,
-                      "Fuel Consumption",
-                      routeDetails['travelAdvisory']
-                              ['fuelConsumptionMicroliters'] ??
-                          'N/A',
-                    ),
-                    SizedBox(height: 16.0),
-                    ElevatedButton(
-                      onPressed: () {
-                        // Handle navigation logic here
-                        Navigator.pop(context); // Close the dialog
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.greenAccent,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _buildInfoRow(
+                        Icons.access_time,
+                        "Duration",
+                        routeDetails['localizedValues']['duration']['text'] ??
+                            'N/A',
                       ),
-                      child: Text("Navigate",
-                          style: TextStyle(color: Colors.black)),
-                    ),
-                  ],
+                      _buildInfoRow(
+                        Icons.directions_car,
+                        "Distance in Miles",
+                        routeDetails['localizedValues']['distance']['text'] ??
+                            'N/A',
+                      ),
+                      _buildInfoRow(
+                        Icons.trending_up,
+                        "Distance in Meters",
+                        routeDetails['distanceMeters'].toString(),
+                      ),
+                      _buildInfoRow(
+                        Icons.warning,
+                        "Warnings",
+                        routeDetails['warnings'].toString(),
+                      ),
+                      _buildInfoRow(
+                        Icons.local_gas_station,
+                        "Fuel Consumption",
+                        routeDetails['travelAdvisory']
+                                ['fuelConsumptionMicroliters'] ??
+                            'N/A',
+                      ),
+                      SizedBox(height: 16.0),
+                      ElevatedButton(
+                        onPressed: () {
+                          // Handle navigation logic here
+                          Navigator.pop(context); // Close the dialog
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.greenAccent,
+                        ),
+                        child: Text("Navigate",
+                            style: TextStyle(color: Colors.black)),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -262,9 +264,11 @@ class _SearchPageState extends State<SearchPage> {
                 title,
                 style: TextStyle(color: Colors.white),
               ),
-              Text(
-                value,
-                style: TextStyle(color: Colors.white),
+              RichText(
+                text: TextSpan(
+                  text: value,
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ],
           ),

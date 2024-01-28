@@ -1,3 +1,4 @@
+import 'package:app_ets_projet_durable/pages/pageProfil.dart';
 import 'package:app_ets_projet_durable/pages/pageRechercheitineraire.dart';
 import 'package:flutter/material.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
@@ -98,7 +99,7 @@ class MyApp extends StatelessWidget {
         // To use the Playground font, add GoogleFonts package and uncomment
         // fontFamily: GoogleFonts.notoSans().fontFamily,
       ),
-      home: const SearchPage(),
+      home: pageProfil(),
     );
   }
 }
