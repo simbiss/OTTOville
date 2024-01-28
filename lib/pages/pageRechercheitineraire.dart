@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:http/http.dart' as http;
 import 'package:geocoding/geocoding.dart';
@@ -182,6 +183,9 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void _showRouteDetails(Map<String, dynamic> routeDetails) {
+    PolylinePoints polylinePoints = PolylinePoints();
+    List<PointLatLng> result = polylinePoints
+        .decodePolyline(routeDetails['polyline']['encodedPolyline']);
     showDialog(
       context: context,
       builder: (BuildContext context) {
