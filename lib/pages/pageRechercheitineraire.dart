@@ -181,6 +181,98 @@ class _SearchPageState extends State<SearchPage> {
     }
   }
 
+  void _showRouteDetails(Map<String, dynamic> routeDetails) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Container(
+            child: Card(
+              color: Colors.green,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.0),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _buildInfoRow(
+                      Icons.access_time,
+                      "Duration",
+                      routeDetails['localizedValues']['duration']['text'] ??
+                          'N/A',
+                    ),
+                    _buildInfoRow(
+                      Icons.directions_car,
+                      "Distance in Miles",
+                      routeDetails['localizedValues']['distance']['text'] ??
+                          'N/A',
+                    ),
+                    _buildInfoRow(
+                      Icons.trending_up,
+                      "Distance in Meters",
+                      routeDetails['distanceMeters'].toString(),
+                    ),
+                    _buildInfoRow(
+                      Icons.warning,
+                      "Warnings",
+                      routeDetails['warnings'].toString(),
+                    ),
+                    _buildInfoRow(
+                      Icons.local_gas_station,
+                      "Fuel Consumption",
+                      routeDetails['travelAdvisory']
+                              ['fuelConsumptionMicroliters'] ??
+                          'N/A',
+                    ),
+                    SizedBox(height: 16.0),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Handle navigation logic here
+                        Navigator.pop(context); // Close the dialog
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.greenAccent,
+                      ),
+                      child: Text("Navigate",
+                          style: TextStyle(color: Colors.black)),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildInfoRow(IconData icon, String title, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        children: [
+          Icon(icon, color: Colors.white),
+          SizedBox(width: 8.0),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: TextStyle(color: Colors.white),
+              ),
+              Text(
+                value,
+                style: TextStyle(color: Colors.white),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -230,14 +322,7 @@ class _SearchPageState extends State<SearchPage> {
                     title: Text(_searchResults[index]['title']),
                     leading: const Icon(Icons.place),
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => RouteDetailsPage(
-                            routeDetails: _searchResults[index]['details'],
-                          ),
-                        ),
-                      );
+                      _showRouteDetails(_searchResults[index]['details']);
                     },
                   );
                 },

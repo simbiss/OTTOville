@@ -14,41 +14,54 @@ class RouteDetailsPage extends StatelessWidget {
       body: Center(
         child: Container(
           padding: const EdgeInsets.all(16.0),
-          decoration: BoxDecoration(
+          child: Card(
             color: Colors.green,
-            borderRadius: BorderRadius.circular(16.0),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              buildInfoRow(Icons.access_time, "Duration",
-                  routeDetails['localizedValues']['duration']['text'] ?? 'N/A'),
-              buildInfoRow(Icons.directions_car, "Distance in Miles",
-                  routeDetails['localizedValues']['distance']['text'] ?? 'N/A'),
-              buildInfoRow(
-                  Icons.trending_up,
-                  "Distance in Meters",
-                  routeDetails['localizedValues']['duration']['text']
-                      .toString()),
-              buildInfoRow(Icons.warning, "Warnings",
-                  routeDetails['warnings'].toString()),
-              buildInfoRow(
-                Icons.local_gas_station,
-                "Fuel Consumption",
-                routeDetails['travelAdvisory']['fuelConsumptionMicroliters'] ??
-                    'N/A',
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16.0),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  buildInfoRow(
+                      Icons.access_time,
+                      "Duration",
+                      routeDetails['localizedValues']['duration']['text'] ??
+                          'N/A'),
+                  buildInfoRow(
+                      Icons.directions_car,
+                      "Distance in Miles",
+                      routeDetails['localizedValues']['distance']['text'] ??
+                          'N/A'),
+                  buildInfoRow(
+                      Icons.trending_up,
+                      "Distance in Meters",
+                      routeDetails['localizedValues']['duration']['text']
+                          .toString()),
+                  buildInfoRow(Icons.warning, "Warnings",
+                      routeDetails['warnings'].toString()),
+                  buildInfoRow(
+                    Icons.local_gas_station,
+                    "Fuel Consumption",
+                    routeDetails['travelAdvisory']
+                            ['fuelConsumptionMicroliters'] ??
+                        'N/A',
+                  ),
+                  SizedBox(height: 16.0),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Handle navigation logic here
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.greenAccent,
+                    ),
+                    child:
+                        Text("Navigate", style: TextStyle(color: Colors.black)),
+                  ),
+                ],
               ),
-              SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: () {
-                  // Handle navigation logic here
-                },
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.greenAccent,
-                ),
-                child: Text("Navigate", style: TextStyle(color: Colors.black)),
-              ),
-            ],
+            ),
           ),
         ),
       ),
