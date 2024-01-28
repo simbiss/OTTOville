@@ -18,7 +18,7 @@ class _PageMeteoState extends State<PageMeteo> {
   Weather weather = Weather();
   List<Weather> weeklyForecast = [];
 
-  String cityName = "Montreal";
+  String cityName = "Montreal".toUpperCase();
   double temperatureC = 0;
   String condition = "";
   String iconUrl = "";
@@ -132,7 +132,7 @@ class _PageMeteoState extends State<PageMeteo> {
                 ),
                 SizedBox(height: 1),
                 Text(
-                  'Qualité de l\'air : ${airQuality!.airQualityPercentage.toStringAsFixed(1)}%',
+                  'Air Quality: ${airQuality!.airQualityPercentage.toStringAsFixed(1)}%',
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.grey[700],
@@ -243,7 +243,7 @@ class _PageMeteoState extends State<PageMeteo> {
   }
 
   void search() {
-    cityName = waetherLOcationController.text;
+    cityName = waetherLOcationController.text.toUpperCase();
     getWeather();
     getWeeklyForecast();
   }
