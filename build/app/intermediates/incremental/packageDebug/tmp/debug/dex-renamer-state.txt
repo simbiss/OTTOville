@@ -1,4 +1,4 @@
-#Sat Jan 27 21:34:34 EST 2024
+#Sun Jan 28 00:57:03 EST 2024
 base.0=C\:\\Users\\othma\\APPETSPROJETDURABLE\\build\\app\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
 base.1=C\:\\Users\\othma\\APPETSPROJETDURABLE\\build\\app\\intermediates\\dex\\debug\\mergeLibDexDebug\\0\\classes.dex
 base.2=C\:\\Users\\othma\\APPETSPROJETDURABLE\\build\\app\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
