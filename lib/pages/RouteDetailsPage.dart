@@ -1,4 +1,6 @@
+import 'package:app_ets_projet_durable/pages/pageMap.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
 class RouteDetailsPage extends StatelessWidget {
   final Map<String, dynamic> routeDetails;
@@ -7,6 +9,12 @@ class RouteDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    PolylinePoints polylinePoints = PolylinePoints();
+    List<PointLatLng> result = polylinePoints
+        .decodePolyline(routeDetails['polyline']['encodedPolyline']);
+    for (var oneResult in result) {
+      print(oneResult);
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('Route Details'),
@@ -51,13 +59,18 @@ class RouteDetailsPage extends StatelessWidget {
                   SizedBox(height: 16.0),
                   ElevatedButton(
                     onPressed: () {
-                      // Handle navigation logic here
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CollapsingAppbarPage(polylinePoints: result),
+                        ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       primary: Colors.greenAccent,
                     ),
                     child:
-                        Text("Navigate", style: TextStyle(color: Colors.black)),
+                        const Text("Navigate", style: TextStyle(color: Colors.black)),
                   ),
                 ],
               ),

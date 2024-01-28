@@ -3,9 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
-class CollapsingAppbarPage extends StatelessWidget {
-  const CollapsingAppbarPage({Key? key}) : super(key: key);
+class CollapsingAppbarPage extends StatefulWidget {
+  const CollapsingAppbarPage({Key? key, required this.polylinePoints}) : super(key: key);
+  final List<PointLatLng> polylinePoints;
+
+  @override
+  State<CollapsingAppbarPage> createState() => _CollapsingAppbarPageState();
+}
+
+class _CollapsingAppbarPageState extends State<CollapsingAppbarPage> {
+  final Set<Polyline>_polyline={};
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +43,7 @@ class CollapsingAppbarPage extends StatelessWidget {
                         fontSize: 16.0,
                       )),
                   background: GoogleMap(
+                    polylines: _createPolylines(),
                     onMapCreated: onMapCreated,
                     initialCameraPosition: const CameraPosition(
                       target: center,
@@ -141,6 +151,23 @@ class CollapsingAppbarPage extends StatelessWidget {
         ),
       ),
     );
+  }
+    Set<Polyline> _createPolylines() {
+    if (widget.polylinePoints.isEmpty) {
+      return Set<Polyline>();
+    }
+    List<LatLng> latLngList = widget.polylinePoints.map((point) {
+    return LatLng(point.latitude, point.longitude);
+  }).toList();
+    
+    Polyline polyline = Polyline(
+      polylineId: const PolylineId('Google Map'),
+      color: Colors.blue,
+      width: 5,
+      points: latLngList,
+    );
+
+    return {polyline};
   }
 }
 

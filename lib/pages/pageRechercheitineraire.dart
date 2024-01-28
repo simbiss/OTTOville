@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'package:app_ets_projet_durable/pages/pageMap.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:http/http.dart' as http;
 import 'package:geocoding/geocoding.dart';
@@ -182,6 +184,9 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void _showRouteDetails(Map<String, dynamic> routeDetails) {
+    PolylinePoints polylinePoints = PolylinePoints();
+    List<PointLatLng> result = polylinePoints
+        .decodePolyline(routeDetails['polyline']['encodedPolyline']);
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -230,7 +235,8 @@ class _SearchPageState extends State<SearchPage> {
                     ElevatedButton(
                       onPressed: () {
                         // Handle navigation logic here
-                        Navigator.pop(context); // Close the dialog
+                        Navigator.push(context, 
+                        MaterialPageRoute(builder: (context)=> CollapsingAppbarPage(polylinePoints: result)));// Close the dialog
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Colors.greenAccent,
