@@ -15,7 +15,7 @@ class _PageMeteoState extends State<PageMeteo> {
   Weather weather = Weather();
   List<Weather> weeklyForecast = [];
 
-  String cityName = "Londre";
+  String cityName = "Russia";
   double temperatureC = 0;
   String condition = "";
   DateTime currentTime = DateTime.now();
@@ -58,6 +58,16 @@ class _PageMeteoState extends State<PageMeteo> {
       weeklyForecast = forecasts;
       print('Weekly forecast updated: $weeklyForecast');
     });
+  }
+
+  String CheckDanger(String condition) {
+    if (condition.contains("Rain".toLowerCase()) ||
+        condition.contains("Snow".toLowerCase()) ||
+        condition.contains("icy".toLowerCase())) {
+      print(temperatureC);
+      return "Stay vigilent";
+    }
+    return "Conditions are good";
   }
 
   @override
@@ -106,7 +116,7 @@ class _PageMeteoState extends State<PageMeteo> {
                 ),
                 SizedBox(height: 24),
                 Text(
-                  'Current Time: ${currentTime.hour}:${currentTime.minute.toString().padLeft(2, '0')}',
+                  CheckDanger(condition),
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.grey[700],
