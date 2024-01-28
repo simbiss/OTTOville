@@ -272,8 +272,8 @@ class _SearchPageState extends State<SearchPage> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => CollapsingAppbarPage(
-                                    polylinePoints:
-                                        result))); // Close the dialog
+                                    polylinePoints: result,
+                                    co2Emissions: 0.0))); // Close the dialog
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Colors.greenAccent,
@@ -441,6 +441,7 @@ class _SearchPageState extends State<SearchPage> {
                       pageBuilder: (context, animation, secondaryAnimation) =>
                           const CollapsingAppbarPage(
                         polylinePoints: [],
+                        co2Emissions: 0.0,
                       ), //remplacer par le nom de la  page
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) {

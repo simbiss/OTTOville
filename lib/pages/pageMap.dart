@@ -1,5 +1,4 @@
 import 'package:app_ets_projet_durable/pages/Trajet.dart';
-import 'package:app_ets_projet_durable/pages/pageMeteo.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -8,11 +7,14 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'SearchPage.dart';
 import 'package:http/http.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'pageMeteo.dart';
 
 class CollapsingAppbarPage extends StatefulWidget {
-  const CollapsingAppbarPage({Key? key, required this.polylinePoints})
+  const CollapsingAppbarPage(
+      {Key? key, required this.polylinePoints, required this.co2Emissions})
       : super(key: key);
   final List<PointLatLng> polylinePoints;
+  final double co2Emissions;
 
   @override
   State<CollapsingAppbarPage> createState() => _CollapsingAppbarPageState();
@@ -31,162 +33,55 @@ class _CollapsingAppbarPageState extends State<CollapsingAppbarPage> {
     }
 
     return Scaffold(
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SliverAppBar(
-                expandedHeight: 550.0,
-                floating: false,
-                pinned: true,
-                stretch: true,
-                flexibleSpace: FlexibleSpaceBar(
-                  centerTitle: true,
-                  collapseMode: CollapseMode.parallax,
-                  title: const Text(" ",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16.0,
-                      )),
-                  background: GoogleMap(
-                    trafficEnabled: true,
-                    myLocationEnabled: true,
-                    polylines: _createPolylines(),
-                    onMapCreated: onMapCreated,
-                    initialCameraPosition: const CameraPosition(
-                      target: center,
-                      zoom: 11.0,
-                    ),
-                    gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
-                      Factory<OneSequenceGestureRecognizer>(
-                        () => EagerGestureRecognizer(),
+      appBar: AppBar(
+        title: const Text("Route"),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: GoogleMap(
+              trafficEnabled: true,
+              myLocationEnabled: true,
+              polylines: _createPolylines(),
+              onMapCreated: onMapCreated,
+              initialCameraPosition: const CameraPosition(
+                target: center,
+                zoom: 11.0,
+              ),
+              gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
+                Factory<OneSequenceGestureRecognizer>(
+                  () => EagerGestureRecognizer(),
+                ),
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SearchPage(),
                       ),
-                    },
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.green,
                   ),
-                )),
-          ];
-        },
-        body: Center(
-          child: Column(children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 20.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    PageRouteBuilder(
-                      pageBuilder: (context, animation, secondaryAnimation) =>
-                          const SearchPage(),
-                      transitionsBuilder:
-                          (context, animation, secondaryAnimation, child) {
-                        var begin = const Offset(1.0, 1.0);
-                        var end = Offset.zero;
-                        var curve = Curves.ease;
-
-                        final tween = Tween(begin: begin, end: end);
-                        final curvedAnimation = CurvedAnimation(
-                          parent: animation,
-                          curve: curve,
-                        );
-
-                        return SlideTransition(
-                          position: tween.animate(curvedAnimation),
-                          child: child,
-                        );
-                      },
-                    ),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                  padding: const EdgeInsets.symmetric(horizontal: 100),
+                  child: const Text("Finish"),
                 ),
-                child: const Text(
-                  'Search',
-                  style: TextStyle(
-                    color: Colors.black,
-                  ), // Set the text color here
+                Text(
+                  'CO2 Emissions: ${widget.co2Emissions.toStringAsFixed(2)} g',
+                  style: TextStyle(fontSize: 16.0),
                 ),
-              ),
+              ],
             ),
-            Expanded(
-              // wrap in Expanded
-              child: ListView.builder(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemCount: trajets.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final item = trajets[index];
-                  return Container(
-                    height: 150,
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 8.0),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.green),
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    padding: const EdgeInsets.all(8),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                item.PositionArrivee,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              const SizedBox(height: 8),
-                              Text(
-                                "Vous êtes à : · ${item.PositionArrivee}",
-                                style: Theme.of(context).textTheme.caption,
-                              ),
-                              const SizedBox(height: 8),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  IconButton(
-                                    icon: const Icon(
-                                        Icons.bookmark_border_rounded),
-                                    onPressed: () {},
-                                  ),
-                                  IconButton(
-                                    icon: const Icon(Icons.directions),
-                                    onPressed: () {},
-                                  ),
-                                  //IconButton(
-                                  //  icon: const Icon(Icons.more_vert),
-                                  //  onPressed: () {},
-                                  //),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        /*Container(
-                    width: 100,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(8.0),
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(item.QteCo2NonEmis),
-                      ),
-                    ),
-                  ),*/
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-          ]),
-        ),
+          ),
+        ],
       ),
       bottomNavigationBar: Container(
         color: Theme.of(context).colorScheme.secondaryContainer,
