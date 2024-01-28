@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:app_ets_projet_durable/pages/network_utility.dart';
 import 'package:app_ets_projet_durable/pages/pageMap.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -14,14 +15,45 @@ class SearchPage extends StatefulWidget {
   _SearchPageState createState() => _SearchPageState();
 }
 
+enum ActiveTextField { start, destination, none }
+
 class _SearchPageState extends State<SearchPage> {
   final TextEditingController _startController = TextEditingController();
   final TextEditingController _destinationController = TextEditingController();
   List<Map<String, dynamic>> _searchResults = [];
+  List<dynamic> _predictionResults = [];
   String currentPosition = "";
   String destination = "";
   Map<String, dynamic>? _fastestRoute;
   Map<String, dynamic>? _ecologicalRoute;
+  ActiveTextField _activeTextField = ActiveTextField.none;
+
+  void placeAutocomplete(String query) async {
+    Uri uri = Uri.https(
+        "maps.googleapis.com",
+        "maps/api/place/autocomplete/json",
+        {"input": query, "key": "AIzaSyDIEkofkq5TZNoUKqXDA8rv8CfNC4aqS9w"});
+
+    String? response = await NetworkUtility.fetchUrl(uri);
+
+    if (response != null) {
+      Map<String, dynamic> responseBody = jsonDecode(response);
+
+        List<dynamic> predictions = [];
+        for (var i = 0; i < responseBody['predictions'].length; i++){
+          predictions.add(responseBody['predictions'][i]['description']);
+        }
+
+        if (predictions.isNotEmpty) {
+
+          print("First *********************: ${predictions.first}");
+
+            setState(() {
+              _predictionResults = predictions;
+          });
+    }
+  }
+  }
 
   void _search() async {
     print("Origin: $currentPosition, Destination: $destination");
@@ -235,8 +267,12 @@ class _SearchPageState extends State<SearchPage> {
                     ElevatedButton(
                       onPressed: () {
                         // Handle navigation logic here
-                        Navigator.push(context, 
-                        MaterialPageRoute(builder: (context)=> CollapsingAppbarPage(polylinePoints: result)));// Close the dialog
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CollapsingAppbarPage(
+                                    polylinePoints:
+                                        result))); // Close the dialog
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Colors.greenAccent,
@@ -279,7 +315,7 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  @override
+    @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -291,9 +327,15 @@ class _SearchPageState extends State<SearchPage> {
           children: <Widget>[
             TextFormField(
               controller: _startController,
+              onTap: () {
+                setState(() {
+                  _activeTextField = ActiveTextField.start;
+                });
+              },
               onChanged: (position) {
                 currentPosition = position;
                 print("The current position is $currentPosition");
+                placeAutocomplete(position);
               },
               decoration: const InputDecoration(
                 labelText: 'Your Position',
@@ -304,9 +346,15 @@ class _SearchPageState extends State<SearchPage> {
             const SizedBox(height: 16),
             TextFormField(
               controller: _destinationController,
+              onTap: () {
+                setState(() {
+                  _activeTextField = ActiveTextField.destination;
+                });
+              },
               onChanged: (position) {
                 destination = position;
                 print("The destination is $destination");
+                placeAutocomplete(position);
               },
               decoration: const InputDecoration(
                 labelText: 'Destination',
@@ -315,11 +363,44 @@ class _SearchPageState extends State<SearchPage> {
               ),
             ),
             const SizedBox(height: 16),
+            // Dropdown list for predictions
+            _predictionResults.isNotEmpty
+                ? Container(
+                    height: 150, // Set the height according to your needs
+                    child: Card(
+                      elevation: 4,
+                      child: ListView.builder(
+                        itemCount: _predictionResults.length,
+                        itemBuilder: ((context, index) {
+                          return ListTile(
+                            title: Text(_predictionResults[index]),
+                            leading: const Icon(Icons.pin_drop),
+                            onTap: () {
+                              setState(() {
+                                // Update the selected text field based on the active text field
+                                if (_activeTextField == ActiveTextField.start) {
+                                  currentPosition = _predictionResults[index];
+                                  _startController.text = currentPosition;
+                                } else if (_activeTextField == ActiveTextField.destination) {
+                                  destination = _predictionResults[index];
+                                  _destinationController.text = destination;
+                                }
+                                _predictionResults.clear();
+                              });
+                            },
+                          );
+                        }),
+                      ),
+                    ),
+                  )
+                : SizedBox.shrink(),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _search,
               child: const Text('Search'),
             ),
             const SizedBox(height: 16),
+            // Result list
             Expanded(
               child: ListView.builder(
                 itemCount: _searchResults.length,
