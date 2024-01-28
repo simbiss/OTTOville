@@ -507,7 +507,6 @@ class _SearchPageState extends State<SearchPage> {
                       ),
                     );
                   }
-                  /*
                   if (selectedIndex == 1){
                       Navigator.push(
                       context,
@@ -534,13 +533,12 @@ class _SearchPageState extends State<SearchPage> {
                       ),
                     );
                   }
-                  */
                   if (selectedIndex == 2) {
                     Navigator.push(
                       context,
                       PageRouteBuilder(
                         pageBuilder: (context, animation, secondaryAnimation) =>
-                            const SearchPage(), //remplacer par le nom de la  page
+                            pageProfil(), //remplacer par le nom de la  page
                         transitionsBuilder:
                             (context, animation, secondaryAnimation, child) {
                           var begin = const Offset(1.0, 1.0);
