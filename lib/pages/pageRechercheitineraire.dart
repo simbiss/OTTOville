@@ -5,6 +5,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:http/http.dart' as http;
 import 'package:geocoding/geocoding.dart';
 import 'RouteDetailsPage.dart';
+import 'pageMap.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -234,8 +235,12 @@ class _SearchPageState extends State<SearchPage> {
                       SizedBox(height: 16.0),
                       ElevatedButton(
                         onPressed: () {
-                          // Handle navigation logic here
-                          Navigator.pop(context); // Close the dialog
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CollapsingAppbarPage(
+                                      polylinePoints:
+                                          result))); // Close the dialog
                         },
                         style: ElevatedButton.styleFrom(
                           primary: Colors.greenAccent,
