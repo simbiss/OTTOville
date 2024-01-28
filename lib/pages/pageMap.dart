@@ -48,6 +48,9 @@ class _CollapsingAppbarPageState extends State<CollapsingAppbarPage> {
                         fontSize: 16.0,
                       )),
                   background: GoogleMap(
+                    trafficEnabled: true,
+                    myLocationEnabled: true,
+                    
                     polylines: _createPolylines(),
                     onMapCreated: onMapCreated,
                     initialCameraPosition: const CameraPosition(
