@@ -89,7 +89,7 @@ class _PageMeteoState extends State<PageMeteo> {
         appBar: AppBar(
           elevation: 0,
           title: Text(
-            "Weather2day",
+            "OTTOville",
             style: GoogleFonts.questrial(
               color: Colors.black,
               fontSize: 30,
@@ -122,29 +122,41 @@ class _PageMeteoState extends State<PageMeteo> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    TextFormField(
-                      controller: waetherLOcationController,
-                      decoration: InputDecoration(
-                        labelText: 'Votre position',
-                        labelStyle: TextStyle(
-                            color:
-                                isDangerous ? Colors.blueGrey : Colors.green),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(
+                    Container(
+                      margin: const EdgeInsets.all(16),
+                      child: TextFormField(
+                        controller: waetherLOcationController,
+                        decoration: InputDecoration(
+                          hintText: 'Enter a city',
+                          fillColor: Theme.of(context).colorScheme.background,
+                          filled: true,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(
+                              color: Theme.of(context).colorScheme.outline,
+                            ),
+                          ),
+                          labelStyle: TextStyle(
                               color: isDangerous
-                                  ? Colors.blueGrey
-                                  : Colors
-                                      .green), // Set the color of the border
+                                  ? const Color.fromARGB(255, 137, 178, 199)
+                                  : Colors.green),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: isDangerous
+                                    ? const Color.fromARGB(255, 135, 175, 196)
+                                    : Colors
+                                        .green), // Set the color of the border
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: isDangerous
+                                    ? const Color.fromARGB(255, 134, 174, 194)
+                                    : Colors
+                                        .green), // Set the color of the focused border
+                          ),
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: isDangerous
-                                  ? Colors.blueGrey
-                                  : Colors
-                                      .green), // Set the color of the focused border
-                        ),
+                        onEditingComplete: search,
                       ),
-                      onEditingComplete: search,
                     ),
                     Text(
                       cityName,
@@ -211,7 +223,11 @@ class _PageMeteoState extends State<PageMeteo> {
                     SizedBox(height: 1),
                     SizedBox(
                       child: Card(
-                        color: isDangerous ? Colors.red : Colors.green,
+                        color: isDangerous
+                            ? Colors.red
+                            : Theme.of(context)
+                                .colorScheme
+                                .onSecondaryContainer,
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -221,13 +237,15 @@ class _PageMeteoState extends State<PageMeteo> {
                               icon: Icon(Icons.info_sharp),
                               onPressed: () {},
                             ),
-                            Text(
-                              CheckDanger(condition),
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color:
-                                    isDangerous ? Colors.black : Colors.black,
+                            Flexible(
+                              child: Text(
+                                CheckDanger(condition),
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color:
+                                      isDangerous ? Colors.black : Colors.black,
+                                ),
                               ),
                             ),
                           ],
@@ -263,16 +281,21 @@ class _PageMeteoState extends State<PageMeteo> {
                                             formatDate(DateTime.now().add(
                                                 Duration(days: index + 1))),
                                             style: TextStyle(
-                                                fontWeight: FontWeight.bold),
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black),
                                           ),
                                           Text(
-                                              '${weeklyForecast[index].temperatureC}°C'),
+                                              '${weeklyForecast[index].temperatureC}°C',
+                                              style: TextStyle(
+                                                  color: Colors.black)),
                                           Text(
                                             weeklyForecast[index].condition,
                                             style: GoogleFonts.questrial(
                                               color: isDangerous
                                                   ? Colors.blueGrey
-                                                  : Colors.green,
+                                                  : Theme.of(context)
+                                                      .colorScheme
+                                                      .secondaryContainer,
                                               fontSize: 12,
                                               fontWeight: FontWeight.bold,
                                             ),
