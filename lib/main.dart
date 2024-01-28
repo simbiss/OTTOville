@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'pages/pageMap.dart';
+import 'pages/SearchPage.dart';
+import 'pages/pageMeteo.dart';
 
 void main() {
   runApp(const MyApp());
