@@ -1,4 +1,6 @@
 import 'package:app_ets_projet_durable/pages/Trajet.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -39,6 +41,11 @@ class CollapsingAppbarPage extends StatelessWidget {
                       target: center,
                       zoom: 11.0,
                     ),
+                    gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
+                      Factory<OneSequenceGestureRecognizer>(
+                        () => EagerGestureRecognizer(),
+                      ),
+                    ].toSet(),
                   ),
                 )),
           ];
