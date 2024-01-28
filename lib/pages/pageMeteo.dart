@@ -4,6 +4,7 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import '/serviceMeteo/meteoModel.dart';
 import '/serviceMeteo/meteoService.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class PageMeteo extends StatefulWidget {
   const PageMeteo({Key? key}) : super(key: key);
@@ -85,174 +86,219 @@ class _PageMeteoState extends State<PageMeteo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        title: Text("Weather2day"),
-        backgroundColor: Colors.green,
-        centerTitle: false,
-      ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 2.0, vertical: 2.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                TextFormField(
-                  controller: waetherLOcationController,
-                  decoration: InputDecoration(
-                    labelText: 'Votre position',
-                    border: OutlineInputBorder(),
-                  ),
-                  onEditingComplete: search,
-                ),
-                Text(
-                  cityName,
-                  style: TextStyle(
-                    fontSize: 36,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 1),
-                Image.network(
-                  iconUrl,
-                  width: 60,
-                  height: 60,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Icon(Icons.error);
-                  },
-                ),
-                SizedBox(height: 1),
-                Text(
-                  "${temperatureC.toStringAsFixed(1)}°C",
-                  style: TextStyle(
-                    fontSize: 64,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(15.0),
-                  child: LinearPercentIndicator(
-                    width: MediaQuery.of(context).size.width - 50,
-                    animation: true,
-                    lineHeight: 20.0,
-                    animationDuration: 2000,
-                    percent: airQuality.airQualityPercentage / 100,
-                    center: Text(
-                        '${airQuality.airQualityPercentage.toStringAsFixed(1)}%'),
-                    linearStrokeCap: LinearStrokeCap.roundAll,
-                    progressColor: airQuality.airQualityPercentage / 100 < 0.25
-                        ? Colors.red
-                        : (airQuality.airQualityPercentage / 100 <= 0.50
-                            ? Colors.orange
-                            : (airQuality.airQualityPercentage / 100 <= 0.75
-                                ? Colors.yellow
-                                : Colors.green)),
-                  ),
-                ),
-                SizedBox(height: 1),
-                Text(
-                  condition,
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                SizedBox(height: 1),
-                Text(
-                  CheckDanger(condition),
-                  style: TextStyle(
-                    fontSize: 23,
-                    fontWeight: FontWeight.bold,
-                    color: isDangerous ? Colors.red : Colors.green,
-                  ),
-                ),
-                SizedBox(height: 24),
-                Text(
-                  '7-Day Forecast',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                SizedBox(height: 16),
-                Container(
-                  height: 160,
-                  child: weeklyForecast.isNotEmpty
-                      ? ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: weeklyForecast.length,
-                          itemBuilder: (context, index) {
-                            return SizedBox(
-                              width: 120,
-                              child: Card(
-                                color: Colors.green,
-                                child: Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Column(
-                                    children: <Widget>[
-                                      Image.network(
-                                        weeklyForecast[index].iconUrl,
-                                        width: 50,
-                                        height: 50,
-                                        errorBuilder:
-                                            (context, error, stackTrace) {
-                                          return Icon(Icons.error);
-                                        },
-                                      ),
-                                      Text(
-                                        formatDate(DateTime.now()
-                                            .add(Duration(days: index + 1))),
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(
-                                          '${weeklyForecast[index].temperatureC}°C'),
-                                      Text(weeklyForecast[index].condition),
-                                    ],
-                                  ),
-                                ),
+        appBar: AppBar(
+          elevation: 0,
+          title: Text(
+            "Weather2day",
+            style: GoogleFonts.questrial(
+              color: Colors.black,
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          backgroundColor: Colors.green,
+          centerTitle: false,
+        ),
+        backgroundColor: Colors.white,
+        body: Container(
+          alignment: Alignment.center,
+          padding: EdgeInsets.all(8.0), // Corrected padding here
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: NetworkImage(
+                  'https://i.pinimg.com/564x/ca/0f/56/ca0f5665840af0e3c8e1345a38d21034.jpg'),
+              fit: BoxFit.cover,
+            ),
+          ),
+
+          child: SingleChildScrollView(
+            child: Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 2.0, vertical: 2.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    TextFormField(
+                      controller: waetherLOcationController,
+                      decoration: InputDecoration(
+                        labelText: 'Votre position',
+                        border: OutlineInputBorder(),
+                      ),
+                      onEditingComplete: search,
+                    ),
+                    Text(
+                      cityName,
+                      style: GoogleFonts.questrial(
+                        color: Colors.black,
+                        fontSize: 50,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 1),
+                    Image.network(
+                      iconUrl,
+                      width: 60,
+                      height: 60,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Icon(Icons.error);
+                      },
+                    ),
+                    SizedBox(height: 1),
+                    Text(
+                      "${temperatureC.toStringAsFixed(1)}°C",
+                      style: GoogleFonts.questrial(
+                        color: Colors.black,
+                        fontSize: 50,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(15.0),
+                      child: LinearPercentIndicator(
+                        width: MediaQuery.of(context).size.width - 50,
+                        animation: true,
+                        lineHeight: 20.0,
+                        animationDuration: 2000,
+                        percent: airQuality.airQualityPercentage / 100,
+                        center: Text(
+                          'AIR QUALITY',
+                          style: GoogleFonts.questrial(
+                            color: Colors.black,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        linearStrokeCap: LinearStrokeCap.roundAll,
+                        progressColor: airQuality.airQualityPercentage / 100 <
+                                0.25
+                            ? Colors.red
+                            : (airQuality.airQualityPercentage / 100 <= 0.50
+                                ? Colors.orange
+                                : (airQuality.airQualityPercentage / 100 <= 0.75
+                                    ? Colors.yellow
+                                    : Colors.green)),
+                      ),
+                    ),
+                    SizedBox(height: 1),
+                    Text(
+                      condition,
+                      style: GoogleFonts.questrial(
+                        color: Colors.black,
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 1),
+                    SizedBox(
+                      child: Card(
+                        color: isDangerous ? Colors.red : Colors.green,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          // Adjust the alignment as needed
+                          children: [
+                            IconButton(
+                              icon: Icon(Icons.info_sharp),
+                              onPressed: () {},
+                            ),
+                            Text(
+                              CheckDanger(condition),
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color:
+                                    isDangerous ? Colors.black : Colors.black,
                               ),
-                            );
-                          },
-                        )
-                      : Center(child: Text('Loading forecast...')),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 16),
+                    Container(
+                      height: 160,
+                      child: weeklyForecast.isNotEmpty
+                          ? ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: weeklyForecast.length,
+                              itemBuilder: (context, index) {
+                                return SizedBox(
+                                  width: 120,
+                                  child: Card(
+                                    color: Colors.white,
+                                    child: Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Column(
+                                        children: <Widget>[
+                                          Image.network(
+                                            weeklyForecast[index].iconUrl,
+                                            width: 50,
+                                            height: 50,
+                                            errorBuilder:
+                                                (context, error, stackTrace) {
+                                              return Icon(Icons.error);
+                                            },
+                                          ),
+                                          Text(
+                                            formatDate(DateTime.now().add(
+                                                Duration(days: index + 1))),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                              '${weeklyForecast[index].temperatureC}°C'),
+                                          Text(
+                                            weeklyForecast[index].condition,
+                                            style: GoogleFonts.questrial(
+                                              color: Colors.green,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            )
+                          : Center(child: Text('Loading forecast...')),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),
-      ),
-      bottomNavigationBar: Container(
-        color: Theme.of(context).colorScheme.secondaryContainer,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-          child: GNav(
-            backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
-            tabBackgroundColor: Theme.of(context).colorScheme.primary,
-            activeColor: Theme.of(context).colorScheme.onPrimary,
-            gap: 12,
-            padding: const EdgeInsets.all(20),
-            tabs: const [
-              GButton(
-                icon: Icons.home,
-                text: 'Home',
-              ),
-              GButton(
-                icon: Icons.favorite,
-                text: 'Favoris',
-              ),
-              GButton(
-                icon: Icons.add,
-                text: 'Ajouter',
-              ),
-              GButton(icon: Icons.account_circle, text: 'Profil')
-            ],
+        bottomNavigationBar: Container(
+          color: Theme.of(context).colorScheme.secondaryContainer,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+            child: GNav(
+              backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+              tabBackgroundColor: Theme.of(context).colorScheme.primary,
+              activeColor: Theme.of(context).colorScheme.onPrimary,
+              gap: 12,
+              padding: const EdgeInsets.all(20),
+              tabs: const [
+                GButton(
+                  icon: Icons.home,
+                  text: 'Home',
+                ),
+                GButton(
+                  icon: Icons.favorite,
+                  text: 'Favoris',
+                ),
+                GButton(
+                  icon: Icons.add,
+                  text: 'Ajouter',
+                ),
+                GButton(icon: Icons.account_circle, text: 'Profil')
+              ],
+            ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 
   void search() {
