@@ -128,14 +128,13 @@ class CollapsingAppbarPage extends StatelessWidget {
                 text: 'Home',
               ),
               GButton(
-                icon: Icons.favorite,
-                text: 'Favoris',
+                icon: Icons.sunny,
+                text: 'Météo',
               ),
               GButton(
-                icon: Icons.add,
-                text: 'Ajouter',
+                icon: Icons.chat,
+                text: 'Chat',
               ),
-              GButton(icon: Icons.account_circle, text: 'Profil')
             ],
           ),
         ),
