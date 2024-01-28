@@ -272,7 +272,7 @@ class _SearchPageState extends State<SearchPage> {
                             MaterialPageRoute(
                                 builder: (context) => CollapsingAppbarPage(
                                     polylinePoints:
-                                        result))); // Close the dialog
+                                        result, co2Emissions: 0.0))); // Close the dialog
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Colors.greenAccent,

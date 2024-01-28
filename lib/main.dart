@@ -102,6 +102,7 @@ class MyApp extends StatelessWidget {
       ),
       home: const CollapsingAppbarPage(
         polylinePoints: [],
+        co2Emissions: 0.0,
       ),
     );
   }
