@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:http/http.dart' as http;
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -12,11 +15,50 @@ class _SearchPageState extends State<SearchPage> {
   final TextEditingController _startController = TextEditingController();
   final TextEditingController _destinationController = TextEditingController();
   List<String> _searchResults = [];
+  String currentPosition = "";
+  String destination = "";
 
-  void _search() {
-    // Ici, vous implémenteriez la logique de recherche et mettez à jour
-    // la liste _searchResults avec les résultats obtenus.
-    // Pour cet exemple, nous allons juste ajouter des résultats factices.
+  void _search() async {
+    var url = Uri.parse('https://routes.googleapis.com/directions/v2:computeRoutes?key=AIzaSyDIEkofkq5TZNoUKqXDA8rv8CfNC4aqS9w');
+    var body = jsonEncode({
+        "origin":{
+    "location":{
+      "latLng":{
+        "latitude": 37.419734,
+        "longitude": -122.0827784
+      }
+    }
+  },
+  "destination":{
+    "location":{
+      "latLng":{
+        "latitude": 37.417670,
+        "longitude": -122.079595
+      }
+    }
+  },
+  "travelMode": "DRIVE",
+  "routingPreference": "TRAFFIC_AWARE_OPTIMAL",
+  "departureTime": "2024-01-28T15:01:23.045123456Z",
+  "computeAlternativeRoutes": false,
+  "routeModifiers": {
+    "avoidTolls": false,
+    "avoidHighways": false,
+    "avoidFerries": false,
+    "vehicleInfo": {
+      "emissionType": "GASOLINE"
+    }
+  },
+  "languageCode": "en-US",
+  "units": "IMPERIAL",
+  "extraComputations": ["FUEL_CONSUMPTION"],
+  "requestedReferenceRoutes": ["FUEL_EFFICIENT"]
+    });
+    var response = await http.post(url, headers: {"Content-Type": "application/json", "X-Goog-FieldMask": "routes.distanceMeters,routes.duration,routes.routeLabels,routes.routeToken,routes.travelAdvisory.fuelConsumptionMicroliters"}, body: body);
+
+print('Response status: ${response.statusCode}');
+print('Response body: ${response.body}');
+
     setState(() {
       _searchResults = [
         'Résultat 1',
@@ -39,6 +81,10 @@ class _SearchPageState extends State<SearchPage> {
           children: <Widget>[
             TextFormField(
               controller: _startController,
+              onChanged: (position) {
+                currentPosition = position;
+                print("The current position is $currentPosition");
+              }, 
               decoration: const InputDecoration(
                 labelText: 'Votre position',
                 border: OutlineInputBorder(),
@@ -48,6 +94,10 @@ class _SearchPageState extends State<SearchPage> {
             const SizedBox(height: 16),
             TextFormField(
               controller: _destinationController,
+              onChanged: (position) {
+                destination = currentPosition;
+                print("The destination is $destination");
+              },
               decoration: const InputDecoration(
                 labelText: 'Destination',
                 border: OutlineInputBorder(),

@@ -2,6 +2,7 @@ import 'package:app_ets_projet_durable/pages/Trajet.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart';
 
 class CollapsingAppbarPage extends StatelessWidget {
   const CollapsingAppbarPage({Key? key}) : super(key: key);
