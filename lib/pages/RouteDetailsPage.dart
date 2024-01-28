@@ -63,7 +63,7 @@ class RouteDetailsPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => pageProfil(),
+                          builder: (context) => CollapsingAppbarPage(polylinePoints: result, co2Emissions: 0.0,),
                         ),
                       );
                     },

@@ -39,6 +39,8 @@ class _CollapsingAppbarPageState extends State<CollapsingAppbarPage> {
         children: [
           Expanded(
             child: GoogleMap(
+              trafficEnabled: true,
+              myLocationEnabled: true,
               polylines: _createPolylines(),
               onMapCreated: onMapCreated,
               initialCameraPosition: const CameraPosition(
@@ -57,20 +59,36 @@ class _CollapsingAppbarPageState extends State<CollapsingAppbarPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SearchPage(),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.green,
+                if (widget.polylinePoints.isNotEmpty)
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SearchPage(),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.green,
+                    ),
+                    child: const Text("Finish"),
                   ),
-                  child: const Text("Finish"),
-                ),
+                if (widget.polylinePoints.isEmpty)
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SearchPage(),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.green,
+                    ),
+                    child: const Text("Rechercher"),
+                  ),
                 Text(
                   'CO2 Emissions: ${widget.co2Emissions.toStringAsFixed(2)} g',
                   style: TextStyle(fontSize: 16.0),

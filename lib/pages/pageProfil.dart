@@ -1,3 +1,5 @@
+import 'package:app_ets_projet_durable/pages/pageMap.dart';
+import 'package:app_ets_projet_durable/pages/pageMeteo.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:provider/provider.dart';
@@ -86,7 +88,7 @@ class _pageProfilState extends State<pageProfil> {
           ],
         ),
       ),
-      bottomNavigationBar: Container(
+bottomNavigationBar: Container(
         color: Theme.of(context).colorScheme.secondaryContainer,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
@@ -96,20 +98,100 @@ class _pageProfilState extends State<pageProfil> {
             activeColor: Theme.of(context).colorScheme.onPrimary,
             gap: 12,
             padding: const EdgeInsets.all(20),
-            tabs: const [
+            tabs: [
               GButton(
-                icon: Icons.home,
-                text: 'Home',
+                icon: Icons.map,
+                text: 'Map',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          const CollapsingAppbarPage(
+                        polylinePoints: [],
+                        co2Emissions: 0.0,
+                      ), //remplacer par le nom de la  page
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        var begin = const Offset(1.0, 1.0);
+                        var end = Offset.zero;
+                        var curve = Curves.ease;
+
+                        final tween = Tween(begin: begin, end: end);
+                        final curvedAnimation = CurvedAnimation(
+                          parent: animation,
+                          curve: curve,
+                        );
+
+                        return SlideTransition(
+                          position: tween.animate(curvedAnimation),
+                          child: child,
+                        );
+                      },
+                    ),
+                  );
+                },
               ),
               GButton(
-                icon: Icons.history,
-                text: 'Favorites',
+                icon: Icons.sunny,
+                text: 'Meteo',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          const PageMeteo(), //remplacer par le nom de la  page
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        var begin = const Offset(1.0, 1.0);
+                        var end = Offset.zero;
+                        var curve = Curves.ease;
+
+                        final tween = Tween(begin: begin, end: end);
+                        final curvedAnimation = CurvedAnimation(
+                          parent: animation,
+                          curve: curve,
+                        );
+
+                        return SlideTransition(
+                          position: tween.animate(curvedAnimation),
+                          child: child,
+                        );
+                      },
+                    ),
+                  );
+                },
               ),
               GButton(
-                icon: Icons.add,
-                text: 'Add',
-              ),
-              GButton(icon: Icons.account_circle, text: 'Profile')
+                icon: Icons.account_circle,
+                text: 'Profile',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                           pageProfil(), //remplacer par le nom de la  page
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        var begin = const Offset(1.0, 1.0);
+                        var end = Offset.zero;
+                        var curve = Curves.ease;
+
+                        final tween = Tween(begin: begin, end: end);
+                        final curvedAnimation = CurvedAnimation(
+                          parent: animation,
+                          curve: curve,
+                        );
+
+                        return SlideTransition(
+                          position: tween.animate(curvedAnimation),
+                          child: child,
+                        );
+                      },
+                    ),
+                  );
+                },
+              )
             ],
           ),
         ),

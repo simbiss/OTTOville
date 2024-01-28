@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:ffi';
+import 'package:app_ets_projet_durable/pages/network_utility.dart';
+import 'package:app_ets_projet_durable/pages/pageProfil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -9,6 +11,7 @@ import 'package:provider/provider.dart';
 import '../main.dart';
 import 'RouteDetailsPage.dart';
 import 'pageMap.dart';
+import 'pageMeteo.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -17,14 +20,44 @@ class SearchPage extends StatefulWidget {
   _SearchPageState createState() => _SearchPageState();
 }
 
+enum ActiveTextField { start, destination, none }
+
 class _SearchPageState extends State<SearchPage> {
   final TextEditingController _startController = TextEditingController();
   final TextEditingController _destinationController = TextEditingController();
   List<Map<String, dynamic>> _searchResults = [];
+  List<dynamic> _predictionResults = [];
   String currentPosition = "";
   String destination = "";
   Map<String, dynamic>? _fastestRoute;
   Map<String, dynamic>? _ecologicalRoute;
+  ActiveTextField _activeTextField = ActiveTextField.none;
+
+  void placeAutocomplete(String query) async {
+    Uri uri = Uri.https(
+        "maps.googleapis.com",
+        "maps/api/place/autocomplete/json",
+        {"input": query, "key": "AIzaSyDIEkofkq5TZNoUKqXDA8rv8CfNC4aqS9w"});
+
+    String? response = await NetworkUtility.fetchUrl(uri);
+
+    if (response != null) {
+      Map<String, dynamic> responseBody = jsonDecode(response);
+
+      List<dynamic> predictions = [];
+      for (var i = 0; i < responseBody['predictions'].length; i++) {
+        predictions.add(responseBody['predictions'][i]['description']);
+      }
+
+      if (predictions.isNotEmpty) {
+        print("First *********************: ${predictions.first}");
+
+        setState(() {
+          _predictionResults = predictions;
+        });
+      }
+    }
+  }
 
   void _search() async {
     print("Origin: $currentPosition, Destination: $destination");
@@ -65,7 +98,7 @@ class _SearchPageState extends State<SearchPage> {
         },
         "travelMode": "DRIVE",
         "routingPreference": "TRAFFIC_AWARE_OPTIMAL",
-        "departureTime": "2024-01-28T15:01:23.045123456Z",
+        "departureTime": "2025-02-28T15:01:23.045123456Z",
         "computeAlternativeRoutes": false,
         "routeModifiers": {
           "avoidTolls": false,
@@ -95,7 +128,7 @@ class _SearchPageState extends State<SearchPage> {
         },
         "travelMode": "DRIVE",
         "routingPreference": "TRAFFIC_AWARE_OPTIMAL",
-        "departureTime": "2024-01-28T15:01:23.045123456Z",
+        "departureTime": "2025-02-28T15:01:23.045123456Z",
         "computeAlternativeRoutes": false,
         "routeModifiers": {
           "avoidTolls": false,
@@ -209,7 +242,7 @@ class _SearchPageState extends State<SearchPage> {
     return co2Emissions;
   }
 
-  void _showRouteDetails(Map<String, dynamic> routeDetails, String type) {
+void _showRouteDetails(Map<String, dynamic> routeDetails, String type) {
     PolylinePoints polylinePoints = PolylinePoints();
     String dmeters = routeDetails['distanceMeters'].toString();
     double distanceInMeters = double.parse(dmeters);
@@ -336,9 +369,15 @@ class _SearchPageState extends State<SearchPage> {
           children: <Widget>[
             TextFormField(
               controller: _startController,
+              onTap: () {
+                setState(() {
+                  _activeTextField = ActiveTextField.start;
+                });
+              },
               onChanged: (position) {
                 currentPosition = position;
                 print("The current position is $currentPosition");
+                placeAutocomplete(position);
               },
               decoration: const InputDecoration(
                 labelText: 'Your Position',
@@ -349,9 +388,15 @@ class _SearchPageState extends State<SearchPage> {
             const SizedBox(height: 16),
             TextFormField(
               controller: _destinationController,
+              onTap: () {
+                setState(() {
+                  _activeTextField = ActiveTextField.destination;
+                });
+              },
               onChanged: (position) {
                 destination = position;
                 print("The destination is $destination");
+                placeAutocomplete(position);
               },
               decoration: const InputDecoration(
                 labelText: 'Destination',
@@ -360,11 +405,45 @@ class _SearchPageState extends State<SearchPage> {
               ),
             ),
             const SizedBox(height: 16),
+            // Dropdown list for predictions
+            _predictionResults.isNotEmpty
+                ? Container(
+                    height: 150, // Set the height according to your needs
+                    child: Card(
+                      elevation: 4,
+                      child: ListView.builder(
+                        itemCount: _predictionResults.length,
+                        itemBuilder: ((context, index) {
+                          return ListTile(
+                            title: Text(_predictionResults[index]),
+                            leading: const Icon(Icons.pin_drop),
+                            onTap: () {
+                              setState(() {
+                                // Update the selected text field based on the active text field
+                                if (_activeTextField == ActiveTextField.start) {
+                                  currentPosition = _predictionResults[index];
+                                  _startController.text = currentPosition;
+                                } else if (_activeTextField ==
+                                    ActiveTextField.destination) {
+                                  destination = _predictionResults[index];
+                                  _destinationController.text = destination;
+                                }
+                                _predictionResults.clear();
+                              });
+                            },
+                          );
+                        }),
+                      ),
+                    ),
+                  )
+                : SizedBox.shrink(),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _search,
               child: const Text('Search'),
             ),
             const SizedBox(height: 16),
+            // Result list
             Expanded(
               child: ListView.builder(
                 itemCount: _searchResults.length,
@@ -393,20 +472,100 @@ class _SearchPageState extends State<SearchPage> {
             activeColor: Theme.of(context).colorScheme.onPrimary,
             gap: 12,
             padding: const EdgeInsets.all(20),
-            tabs: const [
+            tabs: [
               GButton(
-                icon: Icons.home,
-                text: 'Home',
+                icon: Icons.map,
+                text: 'Map',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          const CollapsingAppbarPage(
+                        polylinePoints: [],
+                        co2Emissions: 0.0,
+                      ), //remplacer par le nom de la  page
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        var begin = const Offset(1.0, 1.0);
+                        var end = Offset.zero;
+                        var curve = Curves.ease;
+
+                        final tween = Tween(begin: begin, end: end);
+                        final curvedAnimation = CurvedAnimation(
+                          parent: animation,
+                          curve: curve,
+                        );
+
+                        return SlideTransition(
+                          position: tween.animate(curvedAnimation),
+                          child: child,
+                        );
+                      },
+                    ),
+                  );
+                },
               ),
               GButton(
-                icon: Icons.history,
-                text: 'Favorites',
+                icon: Icons.sunny,
+                text: 'Meteo',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          const PageMeteo(), //remplacer par le nom de la  page
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        var begin = const Offset(1.0, 1.0);
+                        var end = Offset.zero;
+                        var curve = Curves.ease;
+
+                        final tween = Tween(begin: begin, end: end);
+                        final curvedAnimation = CurvedAnimation(
+                          parent: animation,
+                          curve: curve,
+                        );
+
+                        return SlideTransition(
+                          position: tween.animate(curvedAnimation),
+                          child: child,
+                        );
+                      },
+                    ),
+                  );
+                },
               ),
               GButton(
-                icon: Icons.add,
-                text: 'Add',
-              ),
-              GButton(icon: Icons.account_circle, text: 'Profile')
+                icon: Icons.account_circle,
+                text: 'Profile',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                           pageProfil(), //remplacer par le nom de la  page
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        var begin = const Offset(1.0, 1.0);
+                        var end = Offset.zero;
+                        var curve = Curves.ease;
+
+                        final tween = Tween(begin: begin, end: end);
+                        final curvedAnimation = CurvedAnimation(
+                          parent: animation,
+                          curve: curve,
+                        );
+
+                        return SlideTransition(
+                          position: tween.animate(curvedAnimation),
+                          child: child,
+                        );
+                      },
+                    ),
+                  );
+                },
+              )
             ],
           ),
         ),
