@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:http/http.dart' as http;
+import 'package:geocoding/geocoding.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -19,21 +20,39 @@ class _SearchPageState extends State<SearchPage> {
   String destination = "";
 
   void _search() async {
+    print("Origin: $currentPosition, Destination: $destination");
+    List<Location> originLocations = await locationFromAddress(currentPosition);
+    List<Location> destinationLocations = await locationFromAddress(destination);
+    print(originLocations[0].toString());
+    print(destinationLocations[0].toString());
+    RegExp regExp = RegExp(r'Latitude: ([\d.-]+),\s*Longitude: ([\d.-]+),');
+    var matchesOrigin = regExp.firstMatch(originLocations[0].toString());
+    var matchesDestinations = regExp.firstMatch(destinationLocations[0].toString());
+    if (matchesOrigin != null && matchesDestinations != null) {
+    String latitudeOrigin = matchesOrigin.group(1) ?? "";
+    String longitudeOrigin = matchesOrigin.group(2) ?? "";
+    print('Latitude: $latitudeOrigin');
+    print('Longitude: $longitudeOrigin');
+    String latitudeDestination = matchesDestinations.group(1) ?? "";
+    String longitudeDestination = matchesDestinations.group(2) ?? "";
+    print('Latitude: $latitudeDestination');
+    print('Longitude: $longitudeDestination');
+
     var url = Uri.parse('https://routes.googleapis.com/directions/v2:computeRoutes?key=AIzaSyDIEkofkq5TZNoUKqXDA8rv8CfNC4aqS9w');
     var body = jsonEncode({
         "origin":{
     "location":{
       "latLng":{
-        "latitude": 37.419734,
-        "longitude": -122.0827784
+        "latitude": latitudeOrigin,
+        "longitude": longitudeOrigin
       }
     }
   },
   "destination":{
     "location":{
       "latLng":{
-        "latitude": 37.417670,
-        "longitude": -122.079595
+        "latitude": latitudeDestination,
+        "longitude": longitudeDestination
       }
     }
   },
@@ -56,8 +75,11 @@ class _SearchPageState extends State<SearchPage> {
     });
     var response = await http.post(url, headers: {"Content-Type": "application/json", "X-Goog-FieldMask": "routes.distanceMeters,routes.duration,routes.routeLabels,routes.routeToken,routes.travelAdvisory.fuelConsumptionMicroliters"}, body: body);
 
-print('Response status: ${response.statusCode}');
-print('Response body: ${response.body}');
+  print('Response status: ${response.statusCode}');
+  print('Response body: ${response.body}');
+  } else {
+    print('No matches found');
+  }
 
     setState(() {
       _searchResults = [
@@ -95,7 +117,7 @@ print('Response body: ${response.body}');
             TextFormField(
               controller: _destinationController,
               onChanged: (position) {
-                destination = currentPosition;
+                destination = position;
                 print("The destination is $destination");
               },
               decoration: const InputDecoration(
