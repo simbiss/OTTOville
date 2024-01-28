@@ -1,3 +1,4 @@
+import 'package:app_ets_projet_durable/pages/pageProfil.dart';
 import 'package:app_ets_projet_durable/serviceMeteo/airQuality.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -328,14 +329,11 @@ class _PageMeteoState extends State<PageMeteo> {
               activeColor: Theme.of(context).colorScheme.onPrimary,
               gap: 12,
               padding: const EdgeInsets.all(20),
-              tabs: [
-                GButton(
-                  icon: Icons.map_outlined,
-                  text: 'Map',
-                  onPressed: (index) {
-                    setState(() {
-                      selectedIndex = index;
-                    });
+              selectedIndex: 1,
+              onTabChange: (index) {
+                setState(() {
+                  selectedIndex = index;
+                  if (selectedIndex == 0) {
                     Navigator.push(
                       context,
                       PageRouteBuilder(
@@ -363,17 +361,14 @@ class _PageMeteoState extends State<PageMeteo> {
                         },
                       ),
                     );
-                  },
-                ),
-                GButton(
-                  icon: Icons.search,
-                  text: 'Search',
-                  onPressed: () {
-                    Navigator.push(
+                  }
+                  /*
+                  if (selectedIndex == 1){
+                      Navigator.push(
                       context,
                       PageRouteBuilder(
                         pageBuilder: (context, animation, secondaryAnimation) =>
-                            const SearchPage(), //remplacer par le nom de la  page
+                            const PageMeteo(), //remplacer par le nom de la  page
                         transitionsBuilder:
                             (context, animation, secondaryAnimation, child) {
                           var begin = const Offset(1.0, 1.0);
@@ -393,37 +388,48 @@ class _PageMeteoState extends State<PageMeteo> {
                         },
                       ),
                     );
-                  },
+                  }
+                  */
+                  if(selectedIndex == 2){
+                      Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            pageProfil(), //remplacer par le nom de la  page
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                          var begin = const Offset(1.0, 1.0);
+                          var end = Offset.zero;
+                          var curve = Curves.ease;
+
+                          final tween = Tween(begin: begin, end: end);
+                          final curvedAnimation = CurvedAnimation(
+                            parent: animation,
+                            curve: curve,
+                          );
+
+                          return SlideTransition(
+                            position: tween.animate(curvedAnimation),
+                            child: child,
+                          );
+                        },
+                      ),
+                    );
+                  }
+                });
+              },
+              tabs: const [
+                GButton(
+                  icon: Icons.map_outlined,
+                  text: 'Map',
+                ),
+                GButton(
+                  icon: Icons.sunny,
+                  text: 'Weather',
                 ),
                 GButton(
                   icon: Icons.account_circle,
-                  text: 'Profil',
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation, secondaryAnimation) =>
-                            const SearchPage(), //remplacer par le nom de la  page
-                        transitionsBuilder:
-                            (context, animation, secondaryAnimation, child) {
-                          var begin = const Offset(1.0, 1.0);
-                          var end = Offset.zero;
-                          var curve = Curves.ease;
-
-                          final tween = Tween(begin: begin, end: end);
-                          final curvedAnimation = CurvedAnimation(
-                            parent: animation,
-                            curve: curve,
-                          );
-
-                          return SlideTransition(
-                            position: tween.animate(curvedAnimation),
-                            child: child,
-                          );
-                        },
-                      ),
-                    );
-                  },
+                  text: 'Profile',
                 )
               ],
             ),

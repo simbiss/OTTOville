@@ -21,7 +21,7 @@ class _pageProfilState extends State<pageProfil> {
 
     int ecoScore = appState.routeCounter.countEcologique;
     int rapideScore = appState.routeCounter.countRapide;
-
+    int selectedIndex = 2;
     int maxValue = 10;
 
     int totalScore = ecoScore + rapideScore;
@@ -88,114 +88,122 @@ class _pageProfilState extends State<pageProfil> {
           ],
         ),
       ),
-bottomNavigationBar: Container(
-        color: Theme.of(context).colorScheme.secondaryContainer,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-          child: GNav(
-            backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
-            tabBackgroundColor: Theme.of(context).colorScheme.primary,
-            activeColor: Theme.of(context).colorScheme.onPrimary,
-            gap: 12,
-            padding: const EdgeInsets.all(20),
-            tabs: [
-              GButton(
-                icon: Icons.map,
-                text: 'Map',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    PageRouteBuilder(
-                      pageBuilder: (context, animation, secondaryAnimation) =>
-                          const CollapsingAppbarPage(
-                        polylinePoints: [],
-                        co2Emissions: 0.0,
-                      ), //remplacer par le nom de la  page
-                      transitionsBuilder:
-                          (context, animation, secondaryAnimation, child) {
-                        var begin = const Offset(1.0, 1.0);
-                        var end = Offset.zero;
-                        var curve = Curves.ease;
+        bottomNavigationBar: Container(
+          color: Theme.of(context).colorScheme.secondaryContainer,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+            child: GNav(
+              backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+              tabBackgroundColor: Theme.of(context).colorScheme.primary,
+              activeColor: Theme.of(context).colorScheme.onPrimary,
+              gap: 12,
+              padding: const EdgeInsets.all(20),
+              selectedIndex: 2,
+              onTabChange: (index) {
+                setState(() {
+                  selectedIndex = index;
+                  if (selectedIndex == 0) {
+                    Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            const CollapsingAppbarPage(
+                          polylinePoints: [],
+                          co2Emissions: 0.0,
+                        ), //remplacer par le nom de la  page
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                          var begin = const Offset(1.0, 1.0);
+                          var end = Offset.zero;
+                          var curve = Curves.ease;
 
-                        final tween = Tween(begin: begin, end: end);
-                        final curvedAnimation = CurvedAnimation(
-                          parent: animation,
-                          curve: curve,
-                        );
+                          final tween = Tween(begin: begin, end: end);
+                          final curvedAnimation = CurvedAnimation(
+                            parent: animation,
+                            curve: curve,
+                          );
 
-                        return SlideTransition(
-                          position: tween.animate(curvedAnimation),
-                          child: child,
-                        );
-                      },
-                    ),
-                  );
-                },
-              ),
-              GButton(
-                icon: Icons.sunny,
-                text: 'Meteo',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    PageRouteBuilder(
-                      pageBuilder: (context, animation, secondaryAnimation) =>
-                          const PageMeteo(), //remplacer par le nom de la  page
-                      transitionsBuilder:
-                          (context, animation, secondaryAnimation, child) {
-                        var begin = const Offset(1.0, 1.0);
-                        var end = Offset.zero;
-                        var curve = Curves.ease;
+                          return SlideTransition(
+                            position: tween.animate(curvedAnimation),
+                            child: child,
+                          );
+                        },
+                      ),
+                    );
+                  }
+                  if (selectedIndex == 1){
+                      Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            const PageMeteo(), //remplacer par le nom de la  page
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                          var begin = const Offset(1.0, 1.0);
+                          var end = Offset.zero;
+                          var curve = Curves.ease;
 
-                        final tween = Tween(begin: begin, end: end);
-                        final curvedAnimation = CurvedAnimation(
-                          parent: animation,
-                          curve: curve,
-                        );
+                          final tween = Tween(begin: begin, end: end);
+                          final curvedAnimation = CurvedAnimation(
+                            parent: animation,
+                            curve: curve,
+                          );
 
-                        return SlideTransition(
-                          position: tween.animate(curvedAnimation),
-                          child: child,
-                        );
-                      },
-                    ),
-                  );
-                },
-              ),
-              GButton(
-                icon: Icons.account_circle,
-                text: 'Profile',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    PageRouteBuilder(
-                      pageBuilder: (context, animation, secondaryAnimation) =>
-                           pageProfil(), //remplacer par le nom de la  page
-                      transitionsBuilder:
-                          (context, animation, secondaryAnimation, child) {
-                        var begin = const Offset(1.0, 1.0);
-                        var end = Offset.zero;
-                        var curve = Curves.ease;
+                          return SlideTransition(
+                            position: tween.animate(curvedAnimation),
+                            child: child,
+                          );
+                        },
+                      ),
+                    );
+                  }
+/*
+                  if(selectedIndex == 2){
+                      Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            pageProfil(), //remplacer par le nom de la  page
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                          var begin = const Offset(1.0, 1.0);
+                          var end = Offset.zero;
+                          var curve = Curves.ease;
 
-                        final tween = Tween(begin: begin, end: end);
-                        final curvedAnimation = CurvedAnimation(
-                          parent: animation,
-                          curve: curve,
-                        );
+                          final tween = Tween(begin: begin, end: end);
+                          final curvedAnimation = CurvedAnimation(
+                            parent: animation,
+                            curve: curve,
+                          );
 
-                        return SlideTransition(
-                          position: tween.animate(curvedAnimation),
-                          child: child,
-                        );
-                      },
-                    ),
-                  );
-                },
-              )
-            ],
+                          return SlideTransition(
+                            position: tween.animate(curvedAnimation),
+                            child: child,
+                          );
+                        },
+                      ),
+                    );
+                  }
+                  */
+                });
+              },
+              tabs: const [
+                GButton(
+                  icon: Icons.map_outlined,
+                  text: 'Map',
+                ),
+                GButton(
+                  icon: Icons.sunny,
+                  text: 'Weather',
+                ),
+                GButton(
+                  icon: Icons.account_circle,
+                  text: 'Profile',
+                )
+              ],
+            ),
           ),
-        ),
-      ),
+        )
     );
   }
 }
