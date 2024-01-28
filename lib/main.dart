@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: FlexThemeData.light(
-        scheme: FlexScheme.deepOrangeM3,
+        scheme: FlexScheme.greenM3,
         subThemesData: const FlexSubThemesData(
           interactionEffects: false,
           tintedDisabledControls: false,
