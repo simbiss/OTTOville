@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '/serviceMeteo/meteoModel.dart';
 import '/serviceMeteo/meteoService.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 
 class PageMeteo extends StatefulWidget {
   const PageMeteo({Key? key}) : super(key: key);
@@ -12,14 +13,16 @@ class PageMeteo extends StatefulWidget {
 class _PageMeteoState extends State<PageMeteo> {
   WeatherService weatherService = WeatherService();
   UpComingWeatherService upComingWeatherService = UpComingWeatherService();
+  TextEditingController waetherLOcationController = TextEditingController();
   Weather weather = Weather();
   List<Weather> weeklyForecast = [];
 
-  String cityName = "Russia";
+  String cityName = "MOntreal";
   double temperatureC = 0;
   String condition = "";
   String iconUrl = "";
   DateTime currentTime = DateTime.now();
+  bool isDangerous = false;
 
   @override
   void initState() {
@@ -65,32 +68,42 @@ class _PageMeteoState extends State<PageMeteo> {
   }
 
   String CheckDanger(String condition) {
-    if (condition.contains("Rain".toLowerCase()) ||
+    isDangerous = condition.contains("Rain".toLowerCase()) ||
         condition.contains("Snow".toLowerCase()) ||
-        condition.contains("icy".toLowerCase())) {
-      print(temperatureC);
-      return "Stay vigilent";
+        condition.contains("icy".toLowerCase());
+
+    if (isDangerous) {
+      return "Stay vigilant on the roads";
+    } else {
+      return "Road Conditions are good";
     }
-    return "Conditions are good";
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Weather Information'),
         elevation: 0,
-        backgroundColor: Colors.transparent,
-        centerTitle: true,
+        title: Text("Weather2day"),
+        backgroundColor: Colors.green,
+        centerTitle: false,
       ),
       body: SingleChildScrollView(
         child: Center(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 2.0, vertical: 18.0),
+            padding: EdgeInsets.symmetric(horizontal: 2.0, vertical: 2.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                TextFormField(
+                  controller: waetherLOcationController,
+                  decoration: InputDecoration(
+                    labelText: 'Votre position',
+                    border: OutlineInputBorder(),
+                  ),
+                  onEditingComplete: search,
+                ),
                 Text(
                   cityName,
                   style: TextStyle(
@@ -127,8 +140,9 @@ class _PageMeteoState extends State<PageMeteo> {
                 Text(
                   CheckDanger(condition),
                   style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.grey[700],
+                    fontSize: 23,
+                    fontWeight: FontWeight.bold,
+                    color: isDangerous ? Colors.red : Colors.green,
                   ),
                 ),
                 SizedBox(height: 24),
@@ -148,6 +162,7 @@ class _PageMeteoState extends State<PageMeteo> {
                           itemCount: weeklyForecast.length,
                           itemBuilder: (context, index) {
                             return Card(
+                              color: Colors.green,
                               child: Padding(
                                 padding: EdgeInsets.all(8.0),
                                 child: Column(
@@ -180,6 +195,40 @@ class _PageMeteoState extends State<PageMeteo> {
           ),
         ),
       ),
+      bottomNavigationBar: Container(
+        color: Theme.of(context).colorScheme.secondaryContainer,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+          child: GNav(
+            backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+            tabBackgroundColor: Theme.of(context).colorScheme.primary,
+            activeColor: Theme.of(context).colorScheme.onPrimary,
+            gap: 12,
+            padding: const EdgeInsets.all(20),
+            tabs: const [
+              GButton(
+                icon: Icons.home,
+                text: 'Home',
+              ),
+              GButton(
+                icon: Icons.favorite,
+                text: 'Favoris',
+              ),
+              GButton(
+                icon: Icons.add,
+                text: 'Ajouter',
+              ),
+              GButton(icon: Icons.account_circle, text: 'Profil')
+            ],
+          ),
+        ),
+      ),
     );
+  }
+
+  void search() {
+    cityName = waetherLOcationController.text;
+    getWeather();
+    getWeeklyForecast();
   }
 }
