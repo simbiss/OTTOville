@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'pages/pageMap.dart';
 import 'pages/pageRechercheitineraire.dart';
 import 'pages/pageMeteo.dart';

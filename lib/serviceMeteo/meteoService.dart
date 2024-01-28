@@ -35,7 +35,7 @@ class UpComingWeatherService {
       final uri =
           Uri.http('api.weatherapi.com', '/v1/forecast.json', queryParameters);
       final response = await http.get(uri);
-      print('Response JSON: ${response.body}');
+
       if (response.statusCode == 200) {
         return UpComingWeather.fromJson(jsonDecode(response.body));
       } else {

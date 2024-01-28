@@ -1,3 +1,4 @@
+import 'package:app_ets_projet_durable/serviceMeteo/airQuality.dart';
 import 'package:flutter/material.dart';
 import '/serviceMeteo/meteoModel.dart';
 import '/serviceMeteo/meteoService.dart';
@@ -15,10 +16,11 @@ class _PageMeteoState extends State<PageMeteo> {
   Weather weather = Weather();
   List<Weather> weeklyForecast = [];
 
-  String cityName = "Russia";
+  String cityName = "new york";
   double temperatureC = 0;
   String condition = "";
   String iconUrl = "";
+  AirQuality airQuality = AirQuality();
   DateTime currentTime = DateTime.now();
 
   @override
@@ -30,10 +32,10 @@ class _PageMeteoState extends State<PageMeteo> {
 
   void getWeather() async {
     weather = await weatherService.getWeatherData(cityName);
+    airQuality = await AirQualityService().getAirQualityData(cityName);
     setState(() {
       condition = weather.condition;
       temperatureC = weather.temperatureC;
-
       iconUrl = weather.iconUrl;
     });
   }
@@ -113,6 +115,14 @@ class _PageMeteoState extends State<PageMeteo> {
                   style: TextStyle(
                     fontSize: 64,
                     fontWeight: FontWeight.w300,
+                  ),
+                ),
+                SizedBox(height: 1),
+                Text(
+                  'Qualité de l\'air : ${airQuality!.airQualityPercentage.toStringAsFixed(1)}%',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.grey[700],
                   ),
                 ),
                 SizedBox(height: 1),
