@@ -172,8 +172,7 @@ class _PageMeteoState extends State<PageMeteo> {
                           itemCount: weeklyForecast.length,
                           itemBuilder: (context, index) {
                             return SizedBox(
-                              width:
-                                  120, // Set the width as per your requirement
+                              width: 120,
                               child: Card(
                                 color: Colors.green,
                                 child: Padding(
@@ -190,7 +189,8 @@ class _PageMeteoState extends State<PageMeteo> {
                                         },
                                       ),
                                       Text(
-                                        'Day ${index + 1}',
+                                        formatDate(DateTime.now()
+                                            .add(Duration(days: index + 1))),
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold),
                                       ),
@@ -246,5 +246,25 @@ class _PageMeteoState extends State<PageMeteo> {
     cityName = waetherLOcationController.text.toUpperCase();
     getWeather();
     getWeeklyForecast();
+  }
+
+  String formatDate(DateTime date) {
+    List<String> months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ];
+    String day = date.day.toString();
+    String month = months[date.month - 1];
+    return "$day $month";
   }
 }
