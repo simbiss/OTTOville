@@ -13,107 +13,115 @@
 13         to allow setting breakpoints, to provide hot reload, etc.
 14    -->
 15    <uses-permission android:name="android.permission.INTERNET" />
-15-->C:\Users\othma\APPETSPROJETDURABLE\android\app\src\debug\AndroidManifest.xml:6:5-66
-15-->C:\Users\othma\APPETSPROJETDURABLE\android\app\src\debug\AndroidManifest.xml:6:22-64
-16    <!-- Include required permissions for Google Maps API to run. -->
-17    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-17-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\othma\.gradle\caches\transforms-3\01dbff8927e8b2aa767c55cc1914bf9e\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:23:5-79
-17-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\othma\.gradle\caches\transforms-3\01dbff8927e8b2aa767c55cc1914bf9e\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:23:22-76
-18
-19    <uses-feature
-19-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\othma\.gradle\caches\transforms-3\01dbff8927e8b2aa767c55cc1914bf9e\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:26:5-28:35
-20        android:glEsVersion="0x00020000"
-20-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\othma\.gradle\caches\transforms-3\01dbff8927e8b2aa767c55cc1914bf9e\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:27:9-41
-21        android:required="true" />
-21-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\othma\.gradle\caches\transforms-3\01dbff8927e8b2aa767c55cc1914bf9e\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:28:9-32
-22
-23    <queries>
-23-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\othma\.gradle\caches\transforms-3\01dbff8927e8b2aa767c55cc1914bf9e\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:30:5-34:15
+15-->C:\Users\simon\Desktop\Projet GitHub\Flutter\OTTOville\android\app\src\debug\AndroidManifest.xml:6:5-66
+15-->C:\Users\simon\Desktop\Projet GitHub\Flutter\OTTOville\android\app\src\debug\AndroidManifest.xml:6:22-64
+16    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+16-->C:\Users\simon\Desktop\Projet GitHub\Flutter\OTTOville\android\app\src\main\AndroidManifest.xml:3:5-80
+16-->C:\Users\simon\Desktop\Projet GitHub\Flutter\OTTOville\android\app\src\main\AndroidManifest.xml:3:22-78
+17    <uses-permission android:name="android.permission.VIBRATE" />
+17-->C:\Users\simon\Desktop\Projet GitHub\Flutter\OTTOville\android\app\src\main\AndroidManifest.xml:4:5-66
+17-->C:\Users\simon\Desktop\Projet GitHub\Flutter\OTTOville\android\app\src\main\AndroidManifest.xml:4:22-63
+18    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> <!-- Include required permissions for Google Maps API to run. -->
+18-->[:flutter_local_notifications] C:\Users\simon\Desktop\Projet GitHub\Flutter\OTTOville\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:10:5-77
+18-->[:flutter_local_notifications] C:\Users\simon\Desktop\Projet GitHub\Flutter\OTTOville\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:10:22-74
+19    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+19-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\simon\.gradle\caches\transforms-3\933f3bcd90026ce415bdca162ac5e719\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:23:5-79
+19-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\simon\.gradle\caches\transforms-3\933f3bcd90026ce415bdca162ac5e719\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:23:22-76
+20
+21    <uses-feature
+21-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\simon\.gradle\caches\transforms-3\933f3bcd90026ce415bdca162ac5e719\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:26:5-28:35
+22        android:glEsVersion="0x00020000"
+22-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\simon\.gradle\caches\transforms-3\933f3bcd90026ce415bdca162ac5e719\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:27:9-41
+23        android:required="true" />
+23-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\simon\.gradle\caches\transforms-3\933f3bcd90026ce415bdca162ac5e719\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:28:9-32
 24
-25        <!-- Needs to be explicitly declared on Android R+ -->
-26        <package android:name="com.google.android.apps.maps" />
-26-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\othma\.gradle\caches\transforms-3\01dbff8927e8b2aa767c55cc1914bf9e\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:33:9-64
-26-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\othma\.gradle\caches\transforms-3\01dbff8927e8b2aa767c55cc1914bf9e\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:33:18-61
-27    </queries>
-28
-29    <application
-30        android:name="android.app.Application"
-31        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-31-->[androidx.core:core:1.6.0] C:\Users\othma\.gradle\caches\transforms-3\d08c73bfb05384f2e52578171dbd141e\transformed\core-1.6.0\AndroidManifest.xml:24:18-86
-32        android:debuggable="true"
-33        android:icon="@mipmap/ic_launcher"
-34        android:label="app_ets_projet_durable" >
-35        <meta-data
-36            android:name="com.google.android.geo.API_KEY"
-37            android:value="AIzaSyDIEkofkq5TZNoUKqXDA8rv8CfNC4aqS9w" />
-38
-39        <activity
-40            android:name="com.example.app_ets_projet_durable.MainActivity"
-41            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
-42            android:exported="true"
-43            android:hardwareAccelerated="true"
-44            android:launchMode="singleTop"
-45            android:theme="@style/LaunchTheme"
-46            android:windowSoftInputMode="adjustResize" >
-47
-48            <!--
-49                 Specifies an Android theme to apply to this Activity as soon as
-50                 the Android process has started. This theme is visible to the user
-51                 while the Flutter UI initializes. After that, this theme continues
-52                 to determine the Window background behind the Flutter UI.
-53            -->
-54            <meta-data
-55                android:name="io.flutter.embedding.android.NormalTheme"
-56                android:resource="@style/NormalTheme" />
-57
-58            <intent-filter>
-59                <action android:name="android.intent.action.MAIN" />
-60
-61                <category android:name="android.intent.category.LAUNCHER" />
-62            </intent-filter>
-63        </activity>
-64        <!--
-65             Don't delete the meta-data below.
-66             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
-67        -->
-68        <meta-data
-69            android:name="flutterEmbedding"
-70            android:value="2" />
-71
-72        <uses-library
-72-->[androidx.window:window:1.0.0-beta04] C:\Users\othma\.gradle\caches\transforms-3\076eb9235982ee06112d76594ea8585f\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:25:9-27:40
-73            android:name="androidx.window.extensions"
-73-->[androidx.window:window:1.0.0-beta04] C:\Users\othma\.gradle\caches\transforms-3\076eb9235982ee06112d76594ea8585f\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:26:13-54
-74            android:required="false" />
-74-->[androidx.window:window:1.0.0-beta04] C:\Users\othma\.gradle\caches\transforms-3\076eb9235982ee06112d76594ea8585f\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:27:13-37
-75        <uses-library
-75-->[androidx.window:window:1.0.0-beta04] C:\Users\othma\.gradle\caches\transforms-3\076eb9235982ee06112d76594ea8585f\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:28:9-30:40
-76            android:name="androidx.window.sidecar"
-76-->[androidx.window:window:1.0.0-beta04] C:\Users\othma\.gradle\caches\transforms-3\076eb9235982ee06112d76594ea8585f\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:29:13-51
-77            android:required="false" /> <!-- Needs to be explicitly declared on P+ -->
-77-->[androidx.window:window:1.0.0-beta04] C:\Users\othma\.gradle\caches\transforms-3\076eb9235982ee06112d76594ea8585f\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:30:13-37
-78        <uses-library
-78-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\othma\.gradle\caches\transforms-3\01dbff8927e8b2aa767c55cc1914bf9e\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:39:9-41:40
-79            android:name="org.apache.http.legacy"
-79-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\othma\.gradle\caches\transforms-3\01dbff8927e8b2aa767c55cc1914bf9e\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:40:13-50
-80            android:required="false" />
-80-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\othma\.gradle\caches\transforms-3\01dbff8927e8b2aa767c55cc1914bf9e\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:41:13-37
-81
-82        <activity
-82-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\othma\.gradle\caches\transforms-3\680a2964d8a0bce7cbd43c0f88e0420c\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:20:9-22:45
-83            android:name="com.google.android.gms.common.api.GoogleApiActivity"
-83-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\othma\.gradle\caches\transforms-3\680a2964d8a0bce7cbd43c0f88e0420c\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:20:19-85
-84            android:exported="false"
-84-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\othma\.gradle\caches\transforms-3\680a2964d8a0bce7cbd43c0f88e0420c\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:22:19-43
-85            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-85-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\othma\.gradle\caches\transforms-3\680a2964d8a0bce7cbd43c0f88e0420c\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:21:19-78
-86
-87        <meta-data
-87-->[com.google.android.gms:play-services-basement:18.0.0] C:\Users\othma\.gradle\caches\transforms-3\b8c7e0501cdb50e76c669e8ca99b676d\transformed\jetified-play-services-basement-18.0.0\AndroidManifest.xml:21:9-23:69
-88            android:name="com.google.android.gms.version"
-88-->[com.google.android.gms:play-services-basement:18.0.0] C:\Users\othma\.gradle\caches\transforms-3\b8c7e0501cdb50e76c669e8ca99b676d\transformed\jetified-play-services-basement-18.0.0\AndroidManifest.xml:22:13-58
-89            android:value="@integer/google_play_services_version" />
-89-->[com.google.android.gms:play-services-basement:18.0.0] C:\Users\othma\.gradle\caches\transforms-3\b8c7e0501cdb50e76c669e8ca99b676d\transformed\jetified-play-services-basement-18.0.0\AndroidManifest.xml:23:13-66
-90    </application>
-91
-92</manifest>
+25    <queries>
+25-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\simon\.gradle\caches\transforms-3\933f3bcd90026ce415bdca162ac5e719\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:30:5-34:15
+26
+27        <!-- Needs to be explicitly declared on Android R+ -->
+28        <package android:name="com.google.android.apps.maps" />
+28-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\simon\.gradle\caches\transforms-3\933f3bcd90026ce415bdca162ac5e719\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:33:9-64
+28-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\simon\.gradle\caches\transforms-3\933f3bcd90026ce415bdca162ac5e719\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:33:18-61
+29    </queries>
+30
+31    <application
+32        android:name="android.app.Application"
+33        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+33-->[androidx.core:core:1.6.0] C:\Users\simon\.gradle\caches\transforms-3\168e459aae59caaab0d2c703cf9d67ab\transformed\core-1.6.0\AndroidManifest.xml:24:18-86
+34        android:debuggable="true"
+35        android:icon="@mipmap/ic_launcher"
+36        android:label="app_ets_projet_durable" >
+37        <meta-data
+38            android:name="com.google.android.geo.API_KEY"
+39            android:value="AIzaSyDLHkCqYzz3RjTLsTjjUWikzQWSVR8HFJs" /> <!-- google geo api key added here andrew: AIzaSyDIEkofkq5TZNoUKqXDA8rv8CfNC4aqS9w -->
+40
+41        <activity
+42            android:name="com.example.app_ets_projet_durable.MainActivity"
+43            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+44            android:exported="true"
+45            android:hardwareAccelerated="true"
+46            android:launchMode="singleTop"
+47            android:theme="@style/LaunchTheme"
+48            android:windowSoftInputMode="adjustResize" >
+49
+50            <!--
+51                 Specifies an Android theme to apply to this Activity as soon as
+52                 the Android process has started. This theme is visible to the user
+53                 while the Flutter UI initializes. After that, this theme continues
+54                 to determine the Window background behind the Flutter UI.
+55            -->
+56            <meta-data
+57                android:name="io.flutter.embedding.android.NormalTheme"
+58                android:resource="@style/NormalTheme" />
+59
+60            <intent-filter>
+61                <action android:name="android.intent.action.MAIN" />
+62
+63                <category android:name="android.intent.category.LAUNCHER" />
+64            </intent-filter>
+65        </activity>
+66        <!--
+67             Don't delete the meta-data below.
+68             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
+69        -->
+70        <meta-data
+71            android:name="flutterEmbedding"
+72            android:value="2" />
+73
+74        <uses-library
+74-->[androidx.window:window:1.0.0-beta04] C:\Users\simon\.gradle\caches\transforms-3\29fe38a5fd6c3bf46cd8e59c2b63489e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:25:9-27:40
+75            android:name="androidx.window.extensions"
+75-->[androidx.window:window:1.0.0-beta04] C:\Users\simon\.gradle\caches\transforms-3\29fe38a5fd6c3bf46cd8e59c2b63489e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:26:13-54
+76            android:required="false" />
+76-->[androidx.window:window:1.0.0-beta04] C:\Users\simon\.gradle\caches\transforms-3\29fe38a5fd6c3bf46cd8e59c2b63489e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:27:13-37
+77        <uses-library
+77-->[androidx.window:window:1.0.0-beta04] C:\Users\simon\.gradle\caches\transforms-3\29fe38a5fd6c3bf46cd8e59c2b63489e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:28:9-30:40
+78            android:name="androidx.window.sidecar"
+78-->[androidx.window:window:1.0.0-beta04] C:\Users\simon\.gradle\caches\transforms-3\29fe38a5fd6c3bf46cd8e59c2b63489e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:29:13-51
+79            android:required="false" /> <!-- Needs to be explicitly declared on P+ -->
+79-->[androidx.window:window:1.0.0-beta04] C:\Users\simon\.gradle\caches\transforms-3\29fe38a5fd6c3bf46cd8e59c2b63489e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:30:13-37
+80        <uses-library
+80-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\simon\.gradle\caches\transforms-3\933f3bcd90026ce415bdca162ac5e719\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:39:9-41:40
+81            android:name="org.apache.http.legacy"
+81-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\simon\.gradle\caches\transforms-3\933f3bcd90026ce415bdca162ac5e719\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:40:13-50
+82            android:required="false" />
+82-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\simon\.gradle\caches\transforms-3\933f3bcd90026ce415bdca162ac5e719\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:41:13-37
+83
+84        <activity
+84-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\simon\.gradle\caches\transforms-3\da836af96063471d9ecc25668dfd26c9\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:20:9-22:45
+85            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+85-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\simon\.gradle\caches\transforms-3\da836af96063471d9ecc25668dfd26c9\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:20:19-85
+86            android:exported="false"
+86-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\simon\.gradle\caches\transforms-3\da836af96063471d9ecc25668dfd26c9\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:22:19-43
+87            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+87-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\simon\.gradle\caches\transforms-3\da836af96063471d9ecc25668dfd26c9\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:21:19-78
+88
+89        <meta-data
+89-->[com.google.android.gms:play-services-basement:18.0.0] C:\Users\simon\.gradle\caches\transforms-3\05599fbe1c1bec1c22424b7deccb8a80\transformed\jetified-play-services-basement-18.0.0\AndroidManifest.xml:21:9-23:69
+90            android:name="com.google.android.gms.version"
+90-->[com.google.android.gms:play-services-basement:18.0.0] C:\Users\simon\.gradle\caches\transforms-3\05599fbe1c1bec1c22424b7deccb8a80\transformed\jetified-play-services-basement-18.0.0\AndroidManifest.xml:22:13-58
+91            android:value="@integer/google_play_services_version" />
+91-->[com.google.android.gms:play-services-basement:18.0.0] C:\Users\simon\.gradle\caches\transforms-3\05599fbe1c1bec1c22424b7deccb8a80\transformed\jetified-play-services-basement-18.0.0\AndroidManifest.xml:23:13-66
+92    </application>
+93
+94</manifest>

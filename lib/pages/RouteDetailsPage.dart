@@ -68,7 +68,7 @@ class RouteDetailsPage extends StatelessWidget {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.greenAccent,
+                      backgroundColor: Colors.greenAccent,
                     ),
                     child: const Text("Navigate",
                         style: TextStyle(color: Colors.black)),

@@ -70,7 +70,7 @@ class _CollapsingAppbarPageState extends State<CollapsingAppbarPage> {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.green,
+                      backgroundColor: Colors.green,
                     ),
                     child: const Text("Finish"),
                   ),
@@ -85,7 +85,7 @@ class _CollapsingAppbarPageState extends State<CollapsingAppbarPage> {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.green,
+                      backgroundColor: Colors.green,
                     ),
                     child: const Text("Rechercher"),
                   ),

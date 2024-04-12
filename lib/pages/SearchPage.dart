@@ -314,7 +314,7 @@ class _SearchPageState extends State<SearchPage> {
                                       ))); // Close the dialog
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.greenAccent,
+                          backgroundColor: Colors.greenAccent,
                         ),
                         child: Text("Navigate",
                             style: TextStyle(color: Colors.black)),
